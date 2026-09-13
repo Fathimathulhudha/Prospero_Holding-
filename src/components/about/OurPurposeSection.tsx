@@ -22,7 +22,11 @@ export default function OurPurposeSection() {
           overflow-hidden
           bg-white
 
-          max-md:min-h-[1300px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
         style={{
           height: `
@@ -46,12 +50,15 @@ export default function OurPurposeSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
           horizontalLines={[
@@ -59,16 +66,19 @@ export default function OurPurposeSection() {
               top: "5%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               top: "54.5%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               top: "60%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -76,14 +86,20 @@ export default function OurPurposeSection() {
         {/* Building image */}
         <div
           className="
-            absolute
-            left-[7.465278%]
-            right-[7.465278%]
-            top-[5%]
+            md:absolute
+            md:left-[7.465278%]
+            md:right-[7.465278%]
+            md:top-[5%]
+            md:h-[49.5%]
             z-10
-            h-[49.5%]
             overflow-hidden
             bg-[#E7EBEF]
+
+            max-md:relative
+            max-md:mx-5
+            max-md:mt-[30px]
+            max-md:aspect-[16/10]
+            max-md:h-auto
           "
         >
           <Image
@@ -92,11 +108,7 @@ export default function OurPurposeSection() {
             fill
             loading="lazy"
             quality={85}
-            sizes="
-              (max-width: 768px) 85vw,
-              (max-width: 1728px) 85.069444vw,
-              1470px
-            "
+            sizes="(max-width: 768px) 85vw, (max-width: 1728px) 85.069444vw, 1470px"
             className="
               object-cover
               object-center
@@ -125,22 +137,27 @@ export default function OurPurposeSection() {
             top-[54.5%]
             h-[5.5%]
             bg-white
+
+            max-md:hidden
           "
         />
 
         {/* Content area */}
         <div
           className="
-            absolute bottom-0
-            left-[7.465278%]
-            right-[7.465278%]
-            top-[60%]
+            md:absolute md:bottom-0
+            md:left-[7.465278%]
+            md:right-[7.465278%]
+            md:top-[60%]
             z-20
 
-            grid grid-cols-2
+            md:grid md:grid-cols-2
 
-            max-md:grid-cols-1
-            max-md:grid-rows-[0.8fr_1.2fr]
+            max-md:relative
+            max-md:mx-5
+            max-md:mt-[30px]
+            max-md:flex
+            max-md:flex-col
           "
         >
           {/* Mobile horizontal divider */}
@@ -148,9 +165,7 @@ export default function OurPurposeSection() {
             aria-hidden="true"
             className="
               pointer-events-none
-              absolute left-0 right-0
-              top-[40%]
-              z-[5]
+              my-[24px]
               hidden
               bg-[#D7D7D7]
 
@@ -170,8 +185,8 @@ export default function OurPurposeSection() {
               pt-[clamp(70px,5.208333vw,90px)]
 
               max-md:px-[20px]
-              max-md:pb-[30px]
-              max-md:pt-[34px]
+              max-md:pb-[10px]
+              max-md:pt-[10px]
             "
           >
             <div className="w-full">

@@ -48,8 +48,11 @@ export default function OurFoundationSection() {
           overflow-hidden
           bg-white
 
-          max-md:h-auto
-          max-md:min-h-[840px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Top and side grid lines */}
@@ -60,9 +63,11 @@ export default function OurFoundationSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
           horizontalLines={[
@@ -70,6 +75,7 @@ export default function OurFoundationSection() {
               top: 0,
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -77,15 +83,15 @@ export default function OurFoundationSection() {
         {/* Foundation label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[40%]
+            md:w-[40%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -153,22 +159,22 @@ export default function OurFoundationSection() {
         {/* Vision and Mission cards */}
         <div
           className="
-            absolute
-            left-[11.574074%]
-            right-[11.574074%]
-            top-[43%]
+            md:absolute
+            md:left-[11.574074%]
+            md:right-[11.574074%]
+            md:top-[43%]
             z-10
 
-            grid
-            h-[clamp(230px,15.625vw,270px)]
-            grid-cols-2
-            gap-[clamp(22px,2.314815vw,40px)]
+            md:grid
+            md:h-[clamp(230px,15.625vw,270px)]
+            md:grid-cols-2
+            md:gap-[clamp(22px,2.314815vw,40px)]
 
-            max-md:left-[9.31713%]
-            max-md:right-[9.31713%]
-            max-md:top-[30%]
-            max-md:h-auto
-            max-md:grid-cols-1
+            max-md:static
+            max-md:mt-[36px]
+            max-md:mx-5
+            max-md:flex
+            max-md:flex-col
             max-md:gap-4
           "
         >
@@ -183,8 +189,7 @@ export default function OurFoundationSection() {
                   distance={12}
                   className="
                     h-full min-h-0
-
-                    max-md:h-[250px]
+                    max-md:h-auto
                   "
                 >
                   <article
@@ -200,6 +205,11 @@ export default function OurFoundationSection() {
                       hover:border-[#D5D5D5]
                       hover:bg-white
                       hover:shadow-[0_12px_32px_rgba(0,0,0,0.045)]
+
+                      max-md:p-[28px]
+                      max-md:flex
+                      max-md:flex-col
+                      max-md:gap-[16px]
                     "
                   >
                     {/* Hover accent */}
@@ -225,9 +235,9 @@ export default function OurFoundationSection() {
                       aria-hidden="true"
                       strokeWidth={1.8}
                       className="
-                        absolute
-                        left-[7.8%]
-                        top-[16%]
+                        md:absolute
+                        md:left-[7.8%]
+                        md:top-[16%]
                         h-[clamp(20px,1.388889vw,24px)]
                         w-[clamp(20px,1.388889vw,24px)]
                         text-[#7D7D7D]
@@ -235,6 +245,8 @@ export default function OurFoundationSection() {
                         duration-300
 
                         group-hover:text-[#E0BE3D]
+
+                        max-md:static
                       "
                     />
 
@@ -243,15 +255,17 @@ export default function OurFoundationSection() {
                       as="h3"
                       variant="sectionBodyDark"
                       className="
-                        absolute
-                        left-[7.8%]
-                        top-[44%]
+                        md:absolute
+                        md:left-[7.8%]
+                        md:top-[44%]
                         !m-0
                         !text-[clamp(16px,1.157407vw,20px)]
                         !font-medium
                         !leading-none
                         !tracking-[-0.03em]
                         !text-black
+
+                        max-md:static
                       "
                     >
                       {card.title}
@@ -262,17 +276,18 @@ export default function OurFoundationSection() {
                       as="p"
                       variant="statLabel"
                       className="
-                        absolute
-                        left-[7.8%]
-                        top-[58%]
-                        w-[82%]
+                        md:absolute
+                        md:left-[7.8%]
+                        md:top-[58%]
+                        md:w-[82%]
                         !m-0
                         !font-normal
                         !leading-[1.35]
                         !tracking-[-0.015em]
                         !text-[#777777]
 
-                        max-md:w-[84%]
+                        max-md:static
+                        max-md:w-full
                       "
                     >
                       {card.description}

@@ -23,8 +23,11 @@ export default function TheFutureSection() {
           overflow-hidden
           bg-[#E4E4E4]
 
-          max-md:h-auto
-          max-md:min-h-[640px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Grid lines */}
@@ -35,12 +38,15 @@ export default function TheFutureSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
           horizontalLines={[
@@ -48,11 +54,13 @@ export default function TheFutureSection() {
               top: 0,
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               top: "83%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -60,15 +68,15 @@ export default function TheFutureSection() {
         {/* Label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[40%]
+            md:w-[40%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -138,17 +146,16 @@ export default function TheFutureSection() {
           delay={140}
           distance={12}
           className="
-            absolute
-            left-[51.388889%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[51.388889%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            -mt-[6px]
-            w-[39.351852%]
+            md:-mt-[6px]
+            md:w-[39.351852%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[285px]
-            max-md:mt-0
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >

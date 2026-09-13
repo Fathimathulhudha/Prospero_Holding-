@@ -24,6 +24,13 @@ export default function LeadershipSection() {
           w-full max-w-[1728px]
           overflow-hidden
           bg-[#E4E4E4]
+
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:max-h-none
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Leadership grid lines */}
@@ -34,19 +41,23 @@ export default function LeadershipSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
               top: 0,
               bottom: "62.240664%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
             {
               left: "38.657407%",
               top: "37.759336%",
               bottom: 0,
+              hideOnMobile: true,
             },
           ]}
           horizontalLines={[
@@ -54,6 +65,7 @@ export default function LeadershipSection() {
               top: "37.759336%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -61,15 +73,15 @@ export default function LeadershipSection() {
         {/* Leadership label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[40%]
+            md:w-[40%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -139,17 +151,16 @@ export default function LeadershipSection() {
           delay={130}
           distance={10}
           className="
-            absolute
-            left-[51.388889%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[51.388889%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            -mt-[6px]
-            w-[39.351852%]
+            md:-mt-[6px]
+            md:w-[39.351852%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[245px]
-            max-md:mt-0
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -168,11 +179,18 @@ export default function LeadershipSection() {
           delay={160}
           distance={12}
           className="
-            absolute bottom-0
-            left-[7.465278%]
-            top-[37.863071%]
+            md:absolute
+            md:bottom-0
+            md:left-[7.465278%]
+            md:top-[37.863071%]
             z-10
-            w-[31.19213%]
+            md:w-[31.19213%]
+
+            max-md:static
+            max-md:mt-[32px]
+            max-md:mx-5
+            max-md:w-auto
+            max-md:h-[320px]
           "
         >
           <div
@@ -186,10 +204,7 @@ export default function LeadershipSection() {
               src="/images/leadership.png"
               alt="Adv. Sreelal Soolapani"
               fill
-              sizes="
-                (max-width: 1728px) 31.2vw,
-                539px
-              "
+              sizes="(max-width: 768px) 85vw, (max-width: 1728px) 31.2vw, 539px"
               className="
                 object-cover
                 object-center
@@ -220,11 +235,16 @@ export default function LeadershipSection() {
           delay={210}
           distance={10}
           className="
-            absolute
-            left-[42.997685%]
-            top-[46.887967%]
+            md:absolute
+            md:left-[42.997685%]
+            md:top-[46.887967%]
             z-10
-            w-[46.585648%]
+            md:w-[46.585648%]
+
+            max-md:static
+            max-md:mt-[28px]
+            max-md:mx-5
+            max-md:w-auto
           "
         >
           <Typography
@@ -247,10 +267,14 @@ export default function LeadershipSection() {
           delay={260}
           distance={8}
           className="
-            absolute
-            left-[42.997685%]
-            top-[83.5%]
+            md:absolute
+            md:left-[42.997685%]
+            md:top-[83.5%]
             z-10
+
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
           "
         >
           <Typography

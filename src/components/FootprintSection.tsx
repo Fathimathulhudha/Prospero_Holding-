@@ -209,8 +209,12 @@ export default function FootprintSection() {
           overflow-hidden
           bg-white
 
-          max-md:min-h-[700px]
+          max-md:!h-auto
+          max-md:!min-h-0
           max-md:max-h-none
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
         style={{
           height: `
@@ -235,12 +239,15 @@ export default function FootprintSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
         />
@@ -250,8 +257,9 @@ export default function FootprintSection() {
           aria-hidden="true"
           className="
             pointer-events-none
-            absolute left-[7.465278%]
-            right-[7.465278%]
+            absolute left-5 right-5
+            md:left-[7.465278%]
+            md:right-[7.465278%]
             top-0 z-[5]
             bg-[#D7D7D7]
           "
@@ -266,8 +274,9 @@ export default function FootprintSection() {
           className="
             pointer-events-none
             absolute bottom-0
-            left-[7.465278%]
-            right-[7.465278%]
+            left-5 right-5
+            md:left-[7.465278%]
+            md:right-[7.465278%]
             z-[5]
             bg-[#D7D7D7]
           "
@@ -281,15 +290,16 @@ export default function FootprintSection() {
           delay={100}
           distance={12}
           className="
-            absolute
-            left-[9.31713%]
-            top-[14%]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[14%]
             z-10
             flex items-center
             gap-[10px]
 
-            max-md:left-[calc(7%+20px)]
-            max-md:top-[8%]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
           "
         >
           <span
@@ -315,17 +325,17 @@ export default function FootprintSection() {
           delay={170}
           distance={18}
           className="
-            absolute
-            left-[9.31713%]
-            top-[24%]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[24%]
             z-10
             w-[40%]
 
             max-lg:w-[48%]
 
-            max-md:left-[calc(7%+20px)]
-            max-md:right-[calc(7%+20px)]
-            max-md:top-[16%]
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -440,17 +450,14 @@ export default function FootprintSection() {
         {/* Mobile statistics */}
         <div
           className="
-            absolute
-            left-[calc(7%+20px)]
-            right-[calc(7%+20px)]
-            top-[43%]
-            z-10
-
-            hidden grid-cols-2
-            gap-x-[24px]
-            gap-y-[42px]
-
+            md:hidden
+            max-md:static
+            max-md:mt-[36px]
+            max-md:mx-5
             max-md:grid
+            max-md:grid-cols-2
+            max-md:gap-x-[20px]
+            max-md:gap-y-[36px]
           "
         >
           {statistics.map(

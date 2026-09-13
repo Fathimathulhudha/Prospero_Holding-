@@ -207,7 +207,7 @@ export default function CompaniesSection() {
           className="
             pointer-events-none
             absolute inset-y-0
-            left-[7.465278%]
+            left-5 md:left-[7.465278%]
             z-[80]
             w-[0.5px]
             bg-[#2B2B2B]
@@ -220,7 +220,7 @@ export default function CompaniesSection() {
           className="
             pointer-events-none
             absolute inset-y-0
-            right-[7.465278%]
+            right-5 md:right-[7.465278%]
             z-[80]
             w-[0.5px]
             bg-[#2B2B2B]
@@ -231,7 +231,7 @@ export default function CompaniesSection() {
         <div
           className="
             relative z-10
-            mx-[7.465278%]
+            mx-5 md:mx-[7.465278%]
             grid
             h-[clamp(280px,17.361111vw,300px)]
             grid-cols-2
@@ -540,12 +540,7 @@ export default function CompaniesSection() {
                           ? "high"
                           : "auto"
                       }
-                      sizes="
-                        (max-width: 768px) 86vw,
-                        (max-width: 1024px) 76vw,
-                        (max-width: 1728px) 67vw,
-                        1160px
-                      "
+                      sizes="(max-width: 768px) 86vw, (max-width: 1024px) 76vw, (max-width: 1728px) 67vw, 1160px"
                       className="
                         select-none
                         object-cover

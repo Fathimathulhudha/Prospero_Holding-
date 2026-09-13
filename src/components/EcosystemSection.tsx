@@ -199,11 +199,7 @@ function SectorCard({
           src={sector.icon}
           alt=""
           fill
-          sizes="
-            (max-width: 768px) 32vw,
-            (max-width: 1728px) 9vw,
-            150px
-          "
+          sizes="(max-width: 768px) 32vw, (max-width: 1728px) 9vw, 150px"
           className="
             object-contain
             transition-[filter]
@@ -296,7 +292,11 @@ export default function EcosystemSection() {
           bg-white
 
           max-md:aspect-auto
-          max-md:min-h-[1900px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Vertical grid lines */}
@@ -307,13 +307,16 @@ export default function EcosystemSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
               color: "#EEEEEE",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
         />
@@ -321,15 +324,15 @@ export default function EcosystemSection() {
         {/* Label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[40%]
+            md:w-[40%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -400,17 +403,16 @@ export default function EcosystemSection() {
           delay={130}
           distance={10}
           className="
-            absolute
-            left-[51.388889%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[51.388889%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            -mt-[6px]
-            w-[39.351852%]
+            md:-mt-[6px]
+            md:w-[39.351852%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[245px]
-            max-md:mt-0
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -428,15 +430,17 @@ export default function EcosystemSection() {
         {/* Cards container */}
         <div
           className="
-            absolute
-            left-1/2
-            top-[25.5%]
+            md:absolute
+            md:left-1/2
+            md:top-[25.5%]
             z-10
-            h-[62.5%]
-            w-[78%]
-            -translate-x-1/2
+            md:h-[62.5%]
+            md:w-[78%]
+            md:-translate-x-1/2
 
-            max-md:top-[390px]
+            max-md:static
+            max-md:mt-[36px]
+            max-md:mx-auto
             max-md:h-auto
             max-md:w-[85.069444%]
           "
@@ -466,7 +470,7 @@ export default function EcosystemSection() {
                   distance={10}
                   className="
                     h-full min-w-0
-                    max-md:h-[200px]
+                    max-md:h-[210px]
                   "
                 >
                   <SectorCard
@@ -507,7 +511,7 @@ export default function EcosystemSection() {
                   distance={10}
                   className="
                     h-full min-w-0
-                    max-md:h-[200px]
+                    max-md:h-[210px]
                   "
                 >
                   <SectorCard

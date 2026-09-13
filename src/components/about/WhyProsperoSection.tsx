@@ -61,8 +61,11 @@ export default function WhyProsperoSection() {
           overflow-hidden
           bg-black
 
-          max-md:h-auto
-          max-md:min-h-[1100px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Main grid lines */}
@@ -73,12 +76,15 @@ export default function WhyProsperoSection() {
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
           horizontalLines={[
@@ -86,26 +92,31 @@ export default function WhyProsperoSection() {
               top: 0,
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               top: "38%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               top: "55.333333%",
               left: "7.465278%",
               right: "7.465278%",
+              hideOnMobile: true,
             },
             {
               top: "72.666667%",
               left: "7.465278%",
               right: "7.465278%",
+              hideOnMobile: true,
             },
             {
               top: "90%",
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -120,11 +131,13 @@ export default function WhyProsperoSection() {
               left: "11.805556%",
               top: "38%",
               bottom: "10%",
+              hideOnMobile: true,
             },
             {
               left: "54.340278%",
               top: "38%",
               bottom: "27.333333%",
+              hideOnMobile: true,
             },
           ]}
         />
@@ -132,15 +145,15 @@ export default function WhyProsperoSection() {
         {/* Label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[40%]
+            md:w-[40%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -210,17 +223,16 @@ export default function WhyProsperoSection() {
           delay={140}
           distance={12}
           className="
-            absolute
-            left-[51.388889%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[51.388889%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            -mt-[6px]
-            w-[39.351852%]
+            md:-mt-[6px]
+            md:w-[39.351852%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[245px]
-            max-md:mt-0
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -238,24 +250,20 @@ export default function WhyProsperoSection() {
         {/* Reason boxes */}
         <div
           className="
-            absolute
-            left-[7.465278%]
-            right-[7.465278%]
-            top-[38%]
+            md:absolute
+            md:left-[7.465278%]
+            md:right-[7.465278%]
+            md:top-[38%]
             z-10
-            grid h-[52%]
-            grid-cols-2
-            grid-rows-3
+            md:grid md:h-[52%]
+            md:grid-cols-2
+            md:grid-rows-3
 
-            max-md:relative
-            max-md:left-auto
-            max-md:right-auto
-            max-md:top-auto
-            max-md:mx-[7.465278%]
-            max-md:mt-[360px]
-            max-md:h-auto
-            max-md:grid-cols-1
-            max-md:grid-rows-none
+            max-md:static
+            max-md:mx-5
+            max-md:mt-[36px]
+            max-md:flex
+            max-md:flex-col
           "
         >
           {prosperoReasons.map(
@@ -267,15 +275,18 @@ export default function WhyProsperoSection() {
                 className="
                   relative h-full w-full
 
-                  max-md:min-h-[150px]
                   max-md:border-b-[0.5px]
                   max-md:border-[#2B2B2B]
+                  max-md:py-[20px]
                 "
               >
                 <article
                   className="
                     relative h-full w-full
                     overflow-hidden
+                    max-md:flex
+                    max-md:gap-[16px]
+                    max-md:items-start
                   "
                 >
                   {/* Number */}
@@ -283,52 +294,58 @@ export default function WhyProsperoSection() {
                     as="span"
                     variant="cardNumberLight"
                     className="
-                      absolute
-                      left-[3%]
-                      top-[19%]
+                      md:absolute
+                      md:left-[3%]
+                      md:top-[19%]
                       whitespace-nowrap
+                      max-md:static
+                      max-md:shrink-0
                     "
                   >
                     {reason.number}
                   </Typography>
 
-                  {/* Title */}
-                  <Typography
-                    as="h3"
-                    variant="cardTitleLight"
-                    className="
-                      absolute
-                      left-[15.2%]
-                      top-[18%]
-                      w-[76%]
-                      whitespace-nowrap
+                  <div className="max-md:flex max-md:flex-col max-md:gap-[8px]">
+                    {/* Title */}
+                    <Typography
+                      as="h3"
+                      variant="cardTitleLight"
+                      className="
+                        md:absolute
+                        md:left-[15.2%]
+                        md:top-[18%]
+                        md:w-[76%]
+                        whitespace-nowrap
+                        max-md:static
+                        max-md:w-auto
+                        max-md:whitespace-normal
+                      "
+                    >
+                      {reason.title}
+                    </Typography>
 
-                      max-md:whitespace-normal
-                    "
-                  >
-                    {reason.title}
-                  </Typography>
+                    {/* Description */}
+                    <Typography
+                      as="p"
+                      variant="statLabel"
+                      className="
+                        md:absolute
+                        md:left-[15.2%]
+                        md:top-[48%]
+                        md:w-[68%]
+                        !m-0
+                        !font-normal
+                        !leading-[1.35]
+                        !tracking-[-0.015em]
+                        !text-[#8E8E8E]
 
-                  {/* Description */}
-                  <Typography
-                    as="p"
-                    variant="statLabel"
-                    className="
-                      absolute
-                      left-[15.2%]
-                      top-[48%]
-                      w-[68%]
-                      !m-0
-                      !font-normal
-                      !leading-[1.35]
-                      !tracking-[-0.015em]
-                      !text-[#8E8E8E]
-
-                      max-md:w-[76%]
-                    "
-                  >
-                    {reason.description}
-                  </Typography>
+                        max-md:static
+                        max-md:w-auto
+                      "
+                    >
+                      {reason.description}
+                    </Typography>
+                  </div>
                 </article>
               </ScrollReveal>
             ),

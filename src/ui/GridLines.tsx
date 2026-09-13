@@ -6,6 +6,9 @@ export type VerticalGridLine = {
   top?: CSSProperties["top"];
   bottom?: CSSProperties["bottom"];
   color?: CSSProperties["backgroundColor"];
+  className?: string;
+  hideOnMobile?: boolean;
+  hideOnTablet?: boolean;
 };
 
 export type HorizontalGridLine = {
@@ -14,6 +17,9 @@ export type HorizontalGridLine = {
   left?: CSSProperties["left"];
   right?: CSSProperties["right"];
   color?: CSSProperties["backgroundColor"];
+  className?: string;
+  hideOnMobile?: boolean;
+  hideOnTablet?: boolean;
 };
 
 type GridLinesProps = {
@@ -22,6 +28,7 @@ type GridLinesProps = {
   color?: CSSProperties["backgroundColor"];
   thickness?: number;
   zIndex?: number;
+  className?: string;
 };
 
 export default function GridLines({
@@ -30,52 +37,65 @@ export default function GridLines({
   color = "#D7D7D7",
   thickness = 0.5,
   zIndex = 0,
+  className = "",
 }: GridLinesProps) {
   return (
     <>
       {/* Vertical grid lines */}
-      {verticalLines.map((line, index) => (
-        <div
-          key={`vertical-grid-line-${index}`}
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-          "
-          style={{
-            left: line.left,
-            right: line.right,
-            top: line.top ?? 0,
-            bottom: line.bottom ?? 0,
-            width: `${thickness}px`,
-            backgroundColor:
-              line.color ?? color,
-            zIndex,
-          }}
-        />
-      ))}
+      {verticalLines.map((line, index) => {
+        const hideClasses = [
+          line.hideOnMobile ? "hidden md:block" : "",
+          line.hideOnTablet ? "md:hidden lg:block" : "",
+          line.className ?? "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        return (
+          <div
+            key={`vertical-grid-line-${index}`}
+            aria-hidden="true"
+            className={`pointer-events-none absolute ${hideClasses} ${className}`}
+            style={{
+              left: line.left,
+              right: line.right,
+              top: line.top ?? 0,
+              bottom: line.bottom ?? 0,
+              width: `${thickness}px`,
+              backgroundColor: line.color ?? color,
+              zIndex,
+            }}
+          />
+        );
+      })}
 
       {/* Horizontal grid lines */}
-      {horizontalLines.map((line, index) => (
-        <div
-          key={`horizontal-grid-line-${index}`}
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-          "
-          style={{
-            top: line.top,
-            bottom: line.bottom,
-            left: line.left ?? 0,
-            right: line.right ?? 0,
-            height: `${thickness}px`,
-            backgroundColor:
-              line.color ?? color,
-            zIndex,
-          }}
-        />
-      ))}
+      {horizontalLines.map((line, index) => {
+        const hideClasses = [
+          line.hideOnMobile ? "hidden md:block" : "",
+          line.hideOnTablet ? "md:hidden lg:block" : "",
+          line.className ?? "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        return (
+          <div
+            key={`horizontal-grid-line-${index}`}
+            aria-hidden="true"
+            className={`pointer-events-none absolute ${hideClasses} ${className}`}
+            style={{
+              top: line.top,
+              bottom: line.bottom,
+              left: line.left ?? 0,
+              right: line.right ?? 0,
+              height: `${thickness}px`,
+              backgroundColor: line.color ?? color,
+              zIndex,
+            }}
+          />
+        );
+      })}
     </>
   );
 }

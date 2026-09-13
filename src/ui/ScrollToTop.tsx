@@ -1,12 +1,26 @@
 "use client";
 
 import { useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
 
 export default function ScrollToTop() {
   const lenis = useLenis();
+  const pathname = usePathname();
 
   useLayoutEffect(() => {
+    /*
+     * If navigating to a specific section via hash or pending section,
+     * let the section navigation logic handle positioning.
+     */
+    if (typeof window !== "undefined") {
+      const pendingSection = sessionStorage.getItem("prospero-pending-section");
+      const hash = window.location.hash.trim();
+      if (pendingSection || (hash && pathname === "/")) {
+        return;
+      }
+    }
+
     /*
      * Reset page position immediately.
      * No visible smooth animation is used
@@ -29,7 +43,7 @@ export default function ScrollToTop() {
       left: 0,
       behavior: "auto",
     });
-  }, [lenis]);
+  }, [lenis, pathname]);
 
   return null;
 }

@@ -59,7 +59,11 @@ export default function ContactSection({
           bg-white
 
           max-md:aspect-auto
-          max-md:min-h-[1100px]
+          max-md:!h-auto
+          max-md:!min-h-0
+          max-md:pb-[60px]
+          max-md:flex
+          max-md:flex-col
         "
       >
         {/* Contact grid lines */}
@@ -70,12 +74,15 @@ export default function ContactSection({
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
           horizontalLines={[
@@ -83,11 +90,13 @@ export default function ContactSection({
               top: 0,
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
             {
               bottom: 0,
               left: "7.465278%",
               right: "7.465278%",
+              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
             },
           ]}
         />
@@ -95,15 +104,15 @@ export default function ContactSection({
         {/* Contact label and heading */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[clamp(70px,5.208333vw,90px)]
             z-10
-            w-[38%]
+            md:w-[38%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[70px]
+            max-md:static
+            max-md:mt-[50px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -162,15 +171,15 @@ export default function ContactSection({
           delay={130}
           distance={10}
           className="
-            absolute
-            left-[9.31713%]
-            top-[41.397849%]
+            md:absolute
+            md:left-[9.31713%]
+            md:top-[41.397849%]
             z-10
-            w-[31.30787%]
+            md:w-[31.30787%]
 
-            max-md:left-[calc(7.465278%+20px)]
-            max-md:right-[calc(7.465278%+20px)]
-            max-md:top-[280px]
+            max-md:static
+            max-md:mt-[20px]
+            max-md:mx-5
             max-md:w-auto
           "
         >
@@ -192,15 +201,15 @@ export default function ContactSection({
             delay={180}
             distance={10}
             className="
-              absolute
-              left-[9.31713%]
-              top-[64%]
+              md:absolute
+              md:left-[9.31713%]
+              md:top-[64%]
               z-10
-              w-[36%]
+              md:w-[36%]
 
-              max-md:left-[calc(7.465278%+20px)]
-              max-md:right-[calc(7.465278%+20px)]
-              max-md:top-[410px]
+              max-md:static
+              max-md:mt-[24px]
+              max-md:mx-5
               max-md:w-auto
             "
           >
@@ -351,24 +360,33 @@ export default function ContactSection({
         )}
 
         {/* Contact form */}
-        <form className="contents">
+        <form
+          className="
+            contents
+            md:contents
+            max-md:static
+            max-md:mt-[36px]
+            max-md:mx-5
+            max-md:flex
+            max-md:flex-col
+            max-md:gap-[16px]
+          "
+        >
           {/* Full name */}
           <ScrollReveal
             delay={70}
             distance={10}
             className="
-              absolute
-              left-[52.777778%]
-              top-[9.811828%]
+              md:absolute
+              md:left-[52.777778%]
+              md:top-[9.811828%]
               z-10
-              h-[11.693548%]
-              w-[36.979167%]
+              md:h-[11.693548%]
+              md:w-[36.979167%]
 
-              max-md:left-[calc(7.465278%+20px)]
-              max-md:right-[calc(7.465278%+20px)]
-              max-md:top-[610px]
+              max-md:static
               max-md:h-[64px]
-              max-md:w-auto
+              max-md:w-full
             "
           >
             <input
@@ -392,18 +410,16 @@ export default function ContactSection({
             delay={110}
             distance={10}
             className="
-              absolute
-              left-[52.777778%]
-              top-[23.252688%]
+              md:absolute
+              md:left-[52.777778%]
+              md:top-[23.252688%]
               z-10
-              h-[11.693548%]
-              w-[36.979167%]
+              md:h-[11.693548%]
+              md:w-[36.979167%]
 
-              max-md:left-[calc(7.465278%+20px)]
-              max-md:right-[calc(7.465278%+20px)]
-              max-md:top-[690px]
+              max-md:static
               max-md:h-[64px]
-              max-md:w-auto
+              max-md:w-full
             "
           >
             <input
@@ -427,18 +443,16 @@ export default function ContactSection({
             delay={150}
             distance={10}
             className="
-              absolute
-              left-[52.777778%]
-              top-[36.693548%]
+              md:absolute
+              md:left-[52.777778%]
+              md:top-[36.693548%]
               z-10
-              h-[36.827957%]
-              w-[36.979167%]
+              md:h-[36.827957%]
+              md:w-[36.979167%]
 
-              max-md:left-[calc(7.465278%+20px)]
-              max-md:right-[calc(7.465278%+20px)]
-              max-md:top-[770px]
+              max-md:static
               max-md:h-[190px]
-              max-md:w-auto
+              max-md:w-full
             "
           >
             <textarea
@@ -462,13 +476,13 @@ export default function ContactSection({
             delay={190}
             distance={8}
             className="
-              absolute
-              left-[52.777778%]
-              top-[77.688172%]
+              md:absolute
+              md:left-[52.777778%]
+              md:top-[77.688172%]
               z-10
 
-              max-md:left-[calc(7.465278%+20px)]
-              max-md:top-[990px]
+              max-md:static
+              max-md:mt-[8px]
             "
           >
             <button

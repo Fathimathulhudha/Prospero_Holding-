@@ -105,7 +105,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback"
           aria-hidden="true"

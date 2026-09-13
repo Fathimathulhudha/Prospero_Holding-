@@ -11,6 +11,8 @@ import {
 import { gsap } from "gsap/dist/gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
+import ScrollToTop from "@/ui/ScrollToTop";
+
 gsap.registerPlugin(ScrollTrigger);
 
 type SmoothScrollProps = {
@@ -21,6 +23,10 @@ function ScrollTriggerSync() {
   const lenis = useLenis();
 
   useEffect(() => {
+    if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     if (!lenis) {
       return;
     }
@@ -99,6 +105,7 @@ export default function SmoothScroll({
       }}
     >
       <ScrollTriggerSync />
+      <ScrollToTop />
 
       {children}
     </ReactLenis>

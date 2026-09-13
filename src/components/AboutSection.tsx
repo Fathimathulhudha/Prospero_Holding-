@@ -30,8 +30,10 @@ export default function AboutSection({
           overflow-hidden
           bg-white
 
-          max-md:min-h-[720px]
+          max-md:!h-auto
+          max-md:!min-h-0
           max-md:max-h-none
+          max-md:pb-[40px]
         "
         style={{
           height: `
@@ -56,12 +58,15 @@ export default function AboutSection({
           verticalLines={[
             {
               left: "7.465278%",
+              className: "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
+              hideOnMobile: true,
             },
             {
               right: "7.465278%",
+              className: "!right-5 md:!right-[7.465278%]",
             },
           ]}
         />
@@ -72,8 +77,9 @@ export default function AboutSection({
           className="
             pointer-events-none
             absolute
-            left-[7.465278%]
-            right-[7.465278%]
+            left-5 right-5
+            md:left-[7.465278%]
+            md:right-[7.465278%]
             top-0
             z-[5]
             bg-[#D7D7D7]
@@ -89,8 +95,9 @@ export default function AboutSection({
           className="
             pointer-events-none
             absolute
-            left-[7.465278%]
-            right-[7.465278%]
+            left-5 right-5
+            md:left-[7.465278%]
+            md:right-[7.465278%]
             top-[18%]
             z-[5]
             bg-[#D7D7D7]
@@ -106,8 +113,9 @@ export default function AboutSection({
           className="
             pointer-events-none
             absolute bottom-0
-            left-[7.465278%]
-            right-[7.465278%]
+            left-5 right-5
+            md:left-[7.465278%]
+            md:right-[7.465278%]
             z-[5]
             bg-[#D7D7D7]
           "
@@ -119,16 +127,19 @@ export default function AboutSection({
         {/* Content area */}
         <div
           className="
-            absolute bottom-0
-            left-[7.465278%]
-            right-[7.465278%]
-            top-[18%]
+            md:absolute md:bottom-0
+            md:left-[7.465278%]
+            md:right-[7.465278%]
+            md:top-[18%]
             z-10
 
-            grid grid-cols-2
+            md:grid md:grid-cols-2
 
-            max-md:grid-cols-1
-            max-md:grid-rows-2
+            max-md:relative
+            max-md:mx-5
+            max-md:mt-[40px]
+            max-md:flex
+            max-md:flex-col
           "
         >
           {/* Mobile horizontal divider */}
@@ -136,9 +147,7 @@ export default function AboutSection({
             aria-hidden="true"
             className="
               pointer-events-none
-              absolute left-0 right-0
-              top-1/2
-              z-[5]
+              my-[24px]
               hidden
               bg-[#D7D7D7]
 
@@ -159,8 +168,8 @@ export default function AboutSection({
               pt-[clamp(70px,5.208333vw,90px)]
 
               max-md:px-[20px]
-              max-md:pb-[34px]
-              max-md:pt-[34px]
+              max-md:pb-[10px]
+              max-md:pt-[10px]
             "
           >
             <div className="w-full">

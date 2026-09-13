@@ -168,7 +168,8 @@ export default function Navbar() {
    * Reset temporary navbar states when
    * changing between pages.
    */
-  useLayoutEffect(() => {
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsFooterVisible(false);
     setIsHoverReveal(false);
     setIsMobileMenuOpen(false);
@@ -401,7 +402,6 @@ export default function Navbar() {
       document.getElementById("footer");
 
     if (!footer) {
-      setIsFooterVisible(false);
       return;
     }
 
@@ -428,6 +428,25 @@ export default function Navbar() {
       observer.disconnect();
     };
   }, [pathname]);
+
+  /*
+   * Pause Lenis scrolling when mobile menu is open.
+   */
+  useEffect(() => {
+    if (!lenis) {
+      return;
+    }
+
+    if (isMobileMenuOpen) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+
+    return () => {
+      lenis.start();
+    };
+  }, [isMobileMenuOpen, lenis]);
 
   /*
    * Close mobile menu using Escape.
@@ -524,7 +543,7 @@ export default function Navbar() {
      * scroll:true prevents the previous landing
      * page position from being restored.
      */
-    router.push("/", {
+    router.push(`/#${item.sectionId}`, {
       scroll: true,
     });
   };

@@ -119,7 +119,7 @@ function DevelopmentCard({
   return (
     <Link
       href={development.href}
-      prefetch
+      prefetch={false}
       aria-label={`Read ${development.title}`}
       className="
         group block

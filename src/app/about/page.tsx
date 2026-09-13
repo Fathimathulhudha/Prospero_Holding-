@@ -2,8 +2,6 @@ import Navbar from "@/components/Navbar";
 import AboutSection from "@/components/AboutSection";
 import FootprintSection from "@/components/FootprintSection";
 import Footer from "@/components/Footer";
-import ScrollToTop from "@/ui/ScrollToTop";
-
 import OurPurposeSection from "@/components/about/OurPurposeSection";
 import OurFoundationSection from "@/components/about/OurFoundationSection";
 import WhyProsperoSection from "@/components/about/WhyProsperoSection";
@@ -12,9 +10,6 @@ import TheFutureSection from "@/components/about/TheFutureSection";
 export default function AboutPage() {
   return (
     <>
-      {/* Always open this route at the top */}
-      <ScrollToTop />
-
       <Navbar />
 
       <main

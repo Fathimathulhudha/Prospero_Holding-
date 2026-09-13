@@ -148,7 +148,9 @@ export default function NuegridBlog() {
         overflow-x-clip
         bg-white text-black
 
-        max-md:[--blog-gutter:7%]
+        [--blog-gutter:20px]
+        md:[--blog-gutter:5%]
+        lg:[--blog-gutter:14.930556%]
         max-md:[--blog-top-line:24px]
       "
     >
