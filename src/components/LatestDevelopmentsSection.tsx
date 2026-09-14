@@ -10,7 +10,11 @@ import type { UIEvent } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { LuArrowUpRight } from "react-icons/lu";
+import {
+  LuArrowUpRight,
+  LuChevronLeft,
+  LuChevronRight,
+} from "react-icons/lu";
 
 import GridLines from "@/ui/GridLines";
 import Typography from "@/ui/Typography";
@@ -149,8 +153,8 @@ function DevelopmentCard({
     >
       <article
         className="
-          flex h-full w-full flex-col
-          overflow-hidden
+          flex h-full w-full
+          flex-col overflow-hidden
           border border-[#D7D7D7]
           bg-[#F9F9F9]
           transition-[transform,border-color]
@@ -164,7 +168,6 @@ function DevelopmentCard({
           motion-reduce:transition-none
         "
       >
-        {/* Image */}
         <div
           className="
             relative aspect-[16/10]
@@ -218,7 +221,6 @@ function DevelopmentCard({
             "
           />
 
-          {/* Company label */}
           <div
             className="
               absolute left-[14px] top-[14px]
@@ -256,7 +258,6 @@ function DevelopmentCard({
           </div>
         </div>
 
-        {/* Card text */}
         <div
           className="
             flex min-h-[108px]
@@ -318,7 +319,6 @@ function DevelopmentCard({
             "
           >
             <LuArrowUpRight
-              aria-hidden="true"
               strokeWidth={2}
               className="
                 h-[18px] w-[18px]
@@ -359,7 +359,7 @@ export default function LatestDevelopmentsSection() {
         0,
       );
 
-      const nextPage =
+      const nextPage: 0 | 1 =
         maximumScroll > 0 &&
         slider.scrollLeft /
           maximumScroll >=
@@ -449,6 +449,14 @@ export default function LatestDevelopmentsSection() {
     });
   };
 
+  const showPreviousPage = () => {
+    scrollToPage(0);
+  };
+
+  const showNextPage = () => {
+    scrollToPage(1);
+  };
+
   return (
     <section
       id="news"
@@ -480,7 +488,6 @@ export default function LatestDevelopmentsSection() {
           lg:[--news-content-gutter:9.31713%]
         "
       >
-        {/* Grid lines */}
         <GridLines
           thickness={0.5}
           color="#D7D7D7"
@@ -506,7 +513,6 @@ export default function LatestDevelopmentsSection() {
           ]}
         />
 
-        {/* Header */}
         <div
           className="
             relative z-10
@@ -524,7 +530,6 @@ export default function LatestDevelopmentsSection() {
             lg:p-0
           "
         >
-          {/* Label */}
           <div
             className="
               flex items-center
@@ -554,7 +559,6 @@ export default function LatestDevelopmentsSection() {
             </Typography>
           </div>
 
-          {/* Heading */}
           <div
             className="
               mt-[clamp(24px,2.083333vw,36px)]
@@ -575,7 +579,6 @@ export default function LatestDevelopmentsSection() {
           </div>
         </div>
 
-        {/* Cards slider */}
         <div
           ref={sliderRef}
           role="region"
@@ -594,7 +597,7 @@ export default function LatestDevelopmentsSection() {
             scroll-auto
             snap-x snap-mandatory
             scroll-px-0
-            touch-auto
+            touch-pan-x
 
             [scrollbar-width:none]
             [-ms-overflow-style:none]
@@ -627,15 +630,17 @@ export default function LatestDevelopmentsSection() {
           )}
         </div>
 
-        {/* Pagination */}
+        {/* Premium slider navigation */}
         <div
           className="
             relative z-20
             mt-[34px]
             flex items-center
-            justify-center gap-[14px]
+            justify-center
+            gap-[10px]
 
             md:mt-[40px]
+            md:gap-[12px]
 
             lg:absolute
             lg:bottom-[5%]
@@ -644,6 +649,50 @@ export default function LatestDevelopmentsSection() {
             lg:-translate-x-1/2
           "
         >
+          {/* Previous arrow */}
+          <button
+            type="button"
+            onClick={showPreviousPage}
+            disabled={activePage === 0}
+            aria-label="Show previous developments"
+            className="
+              group/navigation
+              flex h-[36px] w-[36px]
+              cursor-pointer items-center
+              justify-center
+              border-0 bg-transparent
+              text-black
+              transition-[color,opacity,transform]
+              duration-200 ease-out
+
+              hover:-translate-x-[2px]
+              hover:text-[#C9A51E]
+
+              disabled:cursor-default
+              disabled:opacity-30
+              disabled:hover:translate-x-0
+              disabled:hover:text-black
+
+              focus-visible:outline-none
+              focus-visible:ring-1
+              focus-visible:ring-[#E0BE3D]
+
+              motion-reduce:transform-none
+              motion-reduce:transition-none
+            "
+          >
+            <LuChevronLeft
+              aria-hidden="true"
+              strokeWidth={1.7}
+              className="
+                h-[19px] w-[19px]
+                md:h-[20px]
+                md:w-[20px]
+              "
+            />
+          </button>
+
+          {/* First page */}
           <button
             type="button"
             onClick={() => {
@@ -652,12 +701,16 @@ export default function LatestDevelopmentsSection() {
             aria-label="Show first group"
             aria-current={
               activePage === 0
-                ? "true"
+                ? "page"
                 : undefined
             }
             className="
-              cursor-pointer border-0
-              bg-transparent p-2
+              flex h-[36px]
+              min-w-[34px]
+              cursor-pointer
+              items-center justify-center
+              border-0 bg-transparent
+              px-[5px]
 
               focus-visible:outline-none
               focus-visible:ring-1
@@ -666,7 +719,9 @@ export default function LatestDevelopmentsSection() {
           >
             <span
               className={`
-                text-xs font-medium
+                text-[12px]
+                font-medium
+                leading-none
                 tracking-[0.08em]
                 transition-colors
                 duration-200
@@ -682,11 +737,17 @@ export default function LatestDevelopmentsSection() {
             </span>
           </button>
 
+          {/* Progress line */}
           <div
             aria-hidden="true"
             className="
-              relative h-px w-[90px]
-              overflow-hidden bg-black/15
+              relative h-px
+              w-[88px]
+              overflow-hidden
+              bg-black/15
+
+              sm:w-[96px]
+              md:w-[104px]
             "
           >
             <span
@@ -695,17 +756,21 @@ export default function LatestDevelopmentsSection() {
                 h-full w-1/2
                 bg-[#E0BE3D]
                 transition-transform
-                duration-200 ease-out
+                duration-300
+                ease-[cubic-bezier(0.22,1,0.36,1)]
 
                 ${
                   activePage === 1
                     ? "translate-x-full"
                     : "translate-x-0"
                 }
+
+                motion-reduce:transition-none
               `}
             />
           </div>
 
+          {/* Second page */}
           <button
             type="button"
             onClick={() => {
@@ -714,12 +779,16 @@ export default function LatestDevelopmentsSection() {
             aria-label="Show last group"
             aria-current={
               activePage === 1
-                ? "true"
+                ? "page"
                 : undefined
             }
             className="
-              cursor-pointer border-0
-              bg-transparent p-2
+              flex h-[36px]
+              min-w-[34px]
+              cursor-pointer
+              items-center justify-center
+              border-0 bg-transparent
+              px-[5px]
 
               focus-visible:outline-none
               focus-visible:ring-1
@@ -728,7 +797,9 @@ export default function LatestDevelopmentsSection() {
           >
             <span
               className={`
-                text-xs font-medium
+                text-[12px]
+                font-medium
+                leading-none
                 tracking-[0.08em]
                 transition-colors
                 duration-200
@@ -742,6 +813,48 @@ export default function LatestDevelopmentsSection() {
             >
               02
             </span>
+          </button>
+
+          {/* Next arrow */}
+          <button
+            type="button"
+            onClick={showNextPage}
+            disabled={activePage === 1}
+            aria-label="Show next developments"
+            className="
+              flex h-[36px] w-[36px]
+              cursor-pointer items-center
+              justify-center
+              border-0 bg-transparent
+              text-black
+              transition-[color,opacity,transform]
+              duration-200 ease-out
+
+              hover:translate-x-[2px]
+              hover:text-[#C9A51E]
+
+              disabled:cursor-default
+              disabled:opacity-30
+              disabled:hover:translate-x-0
+              disabled:hover:text-black
+
+              focus-visible:outline-none
+              focus-visible:ring-1
+              focus-visible:ring-[#E0BE3D]
+
+              motion-reduce:transform-none
+              motion-reduce:transition-none
+            "
+          >
+            <LuChevronRight
+              aria-hidden="true"
+              strokeWidth={1.7}
+              className="
+                h-[19px] w-[19px]
+                md:h-[20px]
+                md:w-[20px]
+              "
+            />
           </button>
         </div>
       </div>
