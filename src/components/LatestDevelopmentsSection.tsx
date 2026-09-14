@@ -122,16 +122,23 @@ function DevelopmentCard({
       prefetch={false}
       aria-label={`Read ${development.title}`}
       className="
-        group block
-        h-full min-w-[84vw]
-        shrink-0 cursor-pointer
+        group box-border block
+        h-auto w-full
+        min-w-full max-w-full
+        flex-[0_0_100%]
+        shrink-0
+        snap-start snap-always
         text-inherit no-underline
 
-        sm:min-w-[64vw]
+        md:min-w-[calc((100%_-_16px)/2)]
+        md:max-w-[calc((100%_-_16px)/2)]
+        md:flex-[0_0_calc((100%_-_16px)/2)]
 
+        lg:h-full
         lg:min-w-[calc((100%_-_40px)/3)]
         lg:max-w-[calc((100%_-_40px)/3)]
-        lg:flex-none
+        lg:flex-[0_0_calc((100%_-_40px)/3)]
+        lg:snap-none
 
         focus-visible:outline-none
         focus-visible:ring-2
@@ -142,27 +149,33 @@ function DevelopmentCard({
     >
       <article
         className="
-          flex h-full w-full
-          transform-gpu flex-col
+          flex h-full w-full flex-col
           overflow-hidden
           border border-[#D7D7D7]
           bg-[#F9F9F9]
-
           transition-[transform,border-color]
           duration-200 ease-out
 
-          group-hover:-translate-y-[2px]
-          group-hover:border-[#BDBDBD]
+          lg:transform-gpu
+          lg:group-hover:-translate-y-[2px]
+          lg:group-hover:border-[#BDBDBD]
 
           motion-reduce:transform-none
           motion-reduce:transition-none
         "
       >
+        {/* Image */}
         <div
           className="
-            relative min-h-0
-            flex-1 overflow-hidden
-            bg-[#929292]
+            relative aspect-[16/10]
+            w-full shrink-0
+            overflow-hidden bg-[#929292]
+
+            md:aspect-[4/3]
+
+            lg:aspect-auto
+            lg:min-h-0
+            lg:flex-1
           "
         >
           <Image
@@ -172,16 +185,21 @@ function DevelopmentCard({
             loading="lazy"
             quality={75}
             draggable={false}
-            sizes="(max-width: 640px) 84vw, (max-width: 1024px) 64vw, (max-width: 1728px) 27vw, 460px"
+            sizes="
+              (max-width: 767px) calc(100vw - 40px),
+              (max-width: 1023px) 44vw,
+              (max-width: 1728px) 27vw,
+              460px
+            "
             className="
               select-none
               object-cover object-center
-              transform-gpu
               transition-transform
               duration-300
               ease-[cubic-bezier(0.22,1,0.36,1)]
 
-              group-hover:scale-[1.015]
+              lg:transform-gpu
+              lg:group-hover:scale-[1.015]
 
               motion-reduce:transform-none
               motion-reduce:transition-none
@@ -200,28 +218,37 @@ function DevelopmentCard({
             "
           />
 
+          {/* Company label */}
           <div
             className="
-              absolute
-              left-[clamp(14px,1.157407vw,20px)]
-              top-[clamp(14px,1.157407vw,20px)]
-              z-20
-              bg-black/80
-              px-[clamp(12px,0.925926vw,16px)]
-              py-[clamp(7px,0.578704vw,10px)]
+              absolute left-[14px] top-[14px]
+              z-20 bg-black/80
+              px-[12px] py-[8px]
+
+              md:left-[16px]
+              md:top-[16px]
+
+              lg:left-[clamp(14px,1.157407vw,20px)]
+              lg:top-[clamp(14px,1.157407vw,20px)]
+              lg:px-[clamp(12px,0.925926vw,16px)]
+              lg:py-[clamp(7px,0.578704vw,10px)]
             "
           >
             <Typography
               as="span"
               variant="statLabel"
               className="
-                !m-0
-                block whitespace-nowrap
-                !text-[clamp(12px,0.925926vw,16px)]
+                !m-0 block
+                whitespace-nowrap
+                !text-[12px]
                 !font-normal
                 !leading-none
                 !tracking-[-0.02em]
                 !text-white
+
+                md:!text-[13px]
+
+                lg:!text-[clamp(12px,0.925926vw,16px)]
               "
             >
               {development.company}
@@ -229,33 +256,45 @@ function DevelopmentCard({
           </div>
         </div>
 
+        {/* Card text */}
         <div
           className="
-            flex min-h-[112px]
+            flex min-h-[108px]
             shrink-0 items-center
             justify-between
-            gap-[clamp(14px,1.157407vw,20px)]
-            px-[clamp(18px,1.50463vw,26px)]
-            py-[clamp(16px,1.273148vw,22px)]
+            gap-[12px]
+            overflow-hidden
+            px-[16px] py-[16px]
 
-            max-md:min-h-[120px]
+            md:min-h-[116px]
+            md:px-[18px]
+
+            lg:min-h-[112px]
+            lg:gap-[clamp(14px,1.157407vw,20px)]
+            lg:px-[clamp(18px,1.50463vw,26px)]
+            lg:py-[clamp(16px,1.273148vw,22px)]
           "
         >
           <Typography
             as="h3"
             variant="sectionBodyDark"
             className="
-              line-clamp-2
+              line-clamp-3
               min-w-0 flex-1
               !m-0
-              !text-[clamp(15px,1.041667vw,18px)]
+              !whitespace-normal
+              !break-words
+              !text-[15px]
               !font-normal
-              !leading-[1.45]
+              !leading-[1.35]
               !tracking-[-0.018em]
               !text-black
 
-              max-md:!text-[15px]
-              max-md:!leading-[1.4]
+              md:line-clamp-2
+              md:!text-[16px]
+
+              lg:!text-[clamp(15px,1.041667vw,18px)]
+              lg:!leading-[1.45]
             "
           >
             {development.title}
@@ -264,33 +303,32 @@ function DevelopmentCard({
           <span
             aria-hidden="true"
             className="
-              flex
-              h-[clamp(42px,2.893519vw,50px)]
-              w-[clamp(42px,2.893519vw,50px)]
-              shrink-0
-              items-center justify-center
-              rounded-full bg-black
-              transition-colors
-              duration-200
+              flex h-[40px] w-[40px]
+              shrink-0 items-center
+              justify-center rounded-full
+              bg-black
+              transition-colors duration-200
 
-              group-hover:bg-[#E0BE3D]
+              md:h-[44px]
+              md:w-[44px]
+
+              lg:h-[clamp(42px,2.893519vw,50px)]
+              lg:w-[clamp(42px,2.893519vw,50px)]
+              lg:group-hover:bg-[#E0BE3D]
             "
           >
             <LuArrowUpRight
+              aria-hidden="true"
               strokeWidth={2}
               className="
-                block
-                h-[clamp(17px,1.157407vw,20px)]
-                w-[clamp(17px,1.157407vw,20px)]
-                shrink-0
-                origin-center
-                transform-gpu text-white
-
+                h-[18px] w-[18px]
+                shrink-0 text-white
                 transition-[color,transform]
                 duration-200
 
-                group-hover:rotate-45
-                group-hover:text-black
+                lg:transform-gpu
+                lg:group-hover:rotate-45
+                lg:group-hover:text-black
 
                 motion-reduce:transform-none
                 motion-reduce:transition-none
@@ -307,7 +345,7 @@ export default function LatestDevelopmentsSection() {
   const sliderRef =
     useRef<HTMLDivElement | null>(null);
 
-  const scrollFrameRef =
+  const frameRef =
     useRef<number | null>(null);
 
   const [activePage, setActivePage] =
@@ -321,14 +359,11 @@ export default function LatestDevelopmentsSection() {
         0,
       );
 
-      if (maximumScroll === 0) {
-        setActivePage(0);
-        return;
-      }
-
       const nextPage =
-        slider.scrollLeft / maximumScroll >=
-        0.5
+        maximumScroll > 0 &&
+        slider.scrollLeft /
+          maximumScroll >=
+          0.5
           ? 1
           : 0;
 
@@ -342,33 +377,25 @@ export default function LatestDevelopmentsSection() {
   );
 
   useEffect(() => {
-    const handleResize = () => {
-      const slider = sliderRef.current;
+    const slider = sliderRef.current;
 
-      if (slider) {
+    if (!slider) {
+      return;
+    }
+
+    const resizeObserver =
+      new ResizeObserver(() => {
         updateActivePage(slider);
-      }
-    };
+      });
 
-    window.addEventListener(
-      "resize",
-      handleResize,
-      {
-        passive: true,
-      },
-    );
+    resizeObserver.observe(slider);
 
     return () => {
-      window.removeEventListener(
-        "resize",
-        handleResize,
-      );
+      resizeObserver.disconnect();
 
-      if (
-        scrollFrameRef.current !== null
-      ) {
+      if (frameRef.current !== null) {
         cancelAnimationFrame(
-          scrollFrameRef.current,
+          frameRef.current,
         );
       }
     };
@@ -377,27 +404,25 @@ export default function LatestDevelopmentsSection() {
   const handleSliderScroll = (
     event: UIEvent<HTMLDivElement>,
   ) => {
-    const slider = event.currentTarget;
-
-    if (
-      scrollFrameRef.current !== null
-    ) {
+    if (frameRef.current !== null) {
       return;
     }
 
-    scrollFrameRef.current =
+    const slider = event.currentTarget;
+
+    frameRef.current =
       requestAnimationFrame(() => {
         updateActivePage(slider);
-        scrollFrameRef.current = null;
+        frameRef.current = null;
       });
   };
 
-  const scrollToPage = (
-    page: 0 | 1,
-  ) => {
+  const scrollToPage = (page: 0 | 1) => {
     const slider = sliderRef.current;
 
-    if (!slider) return;
+    if (!slider) {
+      return;
+    }
 
     const maximumScroll = Math.max(
       slider.scrollWidth -
@@ -417,6 +442,7 @@ export default function LatestDevelopmentsSection() {
         page === 0
           ? 0
           : maximumScroll,
+      top: 0,
       behavior: reduceMotion
         ? "auto"
         : "smooth",
@@ -435,53 +461,70 @@ export default function LatestDevelopmentsSection() {
       <div
         className="
           relative mx-auto
-          h-svh min-h-[700px]
-          max-h-[900px]
           w-full max-w-[1728px]
           overflow-hidden bg-white
+          pb-[54px]
 
-          max-md:h-auto
-          max-md:min-h-0
+          [--news-grid-gutter:20px]
+          [--news-content-gutter:20px]
+
+          md:pb-[64px]
+          md:[--news-grid-gutter:5%]
+          md:[--news-content-gutter:6%]
+
+          lg:h-svh
+          lg:min-h-[700px]
+          lg:max-h-[900px]
+          lg:pb-0
+          lg:[--news-grid-gutter:7.465278%]
+          lg:[--news-content-gutter:9.31713%]
         "
       >
+        {/* Grid lines */}
         <GridLines
           thickness={0.5}
           color="#D7D7D7"
           zIndex={0}
           verticalLines={[
             {
-              left: "7.465278%",
+              left:
+                "var(--news-grid-gutter)",
             },
             {
-              right: "7.465278%",
+              right:
+                "var(--news-grid-gutter)",
             },
           ]}
           horizontalLines={[
             {
               top: 0,
-              left: "7.465278%",
-              right: "7.465278%",
+              left:
+                "var(--news-grid-gutter)",
+              right:
+                "var(--news-grid-gutter)",
             },
           ]}
         />
 
+        {/* Header */}
         <div
           className="
-            absolute
-            left-[9.31713%]
-            right-[9.31713%]
-            top-[clamp(70px,5.208333vw,90px)]
-            z-10
+            relative z-10
+            mx-[var(--news-content-gutter)]
+            pb-[36px] pt-[52px]
 
-            max-md:relative
-            max-md:left-auto
-            max-md:right-auto
-            max-md:top-auto
-            max-md:mx-[calc(7.465278%+16px)]
-            max-md:pb-[44px]
-            max-md:pt-[60px]
+            md:pb-[44px]
+            md:pt-[68px]
+
+            lg:absolute
+            lg:left-[var(--news-content-gutter)]
+            lg:right-[var(--news-content-gutter)]
+            lg:top-[clamp(70px,5.208333vw,90px)]
+            lg:mx-0
+            lg:p-0
           "
         >
+          {/* Label */}
           <div
             className="
               flex items-center
@@ -491,20 +534,27 @@ export default function LatestDevelopmentsSection() {
             <span
               aria-hidden="true"
               className="
-                h-[15px] w-[15px]
+                h-[14px] w-[14px]
                 shrink-0 bg-[#E0BE3D]
+
+                md:h-[15px]
+                md:w-[15px]
               "
             />
 
             <Typography
               as="span"
               variant="sectionLabelDark"
-              className="whitespace-nowrap"
+              className="
+                !m-0
+                whitespace-nowrap
+              "
             >
               Latest Developments
             </Typography>
           </div>
 
+          {/* Heading */}
           <div
             className="
               mt-[clamp(24px,2.083333vw,36px)]
@@ -516,7 +566,7 @@ export default function LatestDevelopmentsSection() {
               variant="sectionHeadingDark"
               className="
                 !m-0
-                !leading-[1.12]
+                !leading-[1.16]
                 !tracking-[-0.045em]
               "
             >
@@ -525,6 +575,7 @@ export default function LatestDevelopmentsSection() {
           </div>
         </div>
 
+        {/* Cards slider */}
         <div
           ref={sliderRef}
           role="region"
@@ -533,20 +584,17 @@ export default function LatestDevelopmentsSection() {
           onScroll={handleSliderScroll}
           data-hide-scrollbar
           className="
-            absolute
-            left-[9.31713%]
-            right-[9.31713%]
-            top-[31%]
-            z-10
-
-            flex h-[53%]
-            gap-3
+            relative z-10
+            mx-[20px]
+            flex items-stretch
+            gap-0
             overflow-x-auto
             overflow-y-hidden
+            overscroll-x-none
             scroll-auto
+            snap-x snap-mandatory
+            scroll-px-0
             touch-auto
-
-            lg:gap-5
 
             [scrollbar-width:none]
             [-ms-overflow-style:none]
@@ -555,12 +603,18 @@ export default function LatestDevelopmentsSection() {
 
             focus-visible:outline-none
 
-            max-md:relative
-            max-md:left-auto
-            max-md:right-auto
-            max-md:top-auto
-            max-md:mx-[calc(7.465278%+16px)]
-            max-md:h-[430px]
+            md:mx-[6%]
+            md:gap-[16px]
+            md:snap-proximity
+
+            lg:absolute
+            lg:left-[9.31713%]
+            lg:right-[9.31713%]
+            lg:top-[31%]
+            lg:mx-0
+            lg:h-[53%]
+            lg:gap-[20px]
+            lg:snap-none
           "
         >
           {developments.map(
@@ -573,38 +627,56 @@ export default function LatestDevelopmentsSection() {
           )}
         </div>
 
+        {/* Pagination */}
         <div
           className="
-            absolute bottom-[5%]
-            left-1/2 z-20
-            flex -translate-x-1/2
-            items-center gap-[14px]
+            relative z-20
+            mt-[34px]
+            flex items-center
+            justify-center gap-[14px]
 
-            max-md:relative
-            max-md:bottom-auto
-            max-md:left-auto
-            max-md:mt-[36px]
-            max-md:translate-x-0
-            max-md:justify-center
-            max-md:pb-[54px]
+            md:mt-[40px]
+
+            lg:absolute
+            lg:bottom-[5%]
+            lg:left-1/2
+            lg:mt-0
+            lg:-translate-x-1/2
           "
         >
           <button
             type="button"
-            onClick={() => scrollToPage(0)}
+            onClick={() => {
+              scrollToPage(0);
+            }}
             aria-label="Show first group"
+            aria-current={
+              activePage === 0
+                ? "true"
+                : undefined
+            }
             className="
-              cursor-pointer
-              border-0 bg-transparent
-              p-1
+              cursor-pointer border-0
+              bg-transparent p-2
+
+              focus-visible:outline-none
+              focus-visible:ring-1
+              focus-visible:ring-[#E0BE3D]
             "
           >
             <span
-              className={`text-xs font-medium tracking-[0.08em] ${
-                activePage === 0
-                  ? "text-black"
-                  : "text-black/30"
-              }`}
+              className={`
+                text-xs font-medium
+                tracking-[0.08em]
+                transition-colors
+                duration-200
+
+                ${
+                  activePage === 0
+                    ? "text-black"
+                    : "text-black/30"
+                }
+              `}
             >
               01
             </span>
@@ -613,37 +685,60 @@ export default function LatestDevelopmentsSection() {
           <div
             aria-hidden="true"
             className="
-              relative h-px
-              w-[90px]
-              overflow-hidden
-              bg-black/15
+              relative h-px w-[90px]
+              overflow-hidden bg-black/15
             "
           >
             <span
-              className={`absolute left-0 top-0 h-full w-1/2 bg-[#E0BE3D] transition-transform duration-200 ${
-                activePage === 1
-                  ? "translate-x-full"
-                  : "translate-x-0"
-              }`}
+              className={`
+                absolute left-0 top-0
+                h-full w-1/2
+                bg-[#E0BE3D]
+                transition-transform
+                duration-200 ease-out
+
+                ${
+                  activePage === 1
+                    ? "translate-x-full"
+                    : "translate-x-0"
+                }
+              `}
             />
           </div>
 
           <button
             type="button"
-            onClick={() => scrollToPage(1)}
+            onClick={() => {
+              scrollToPage(1);
+            }}
             aria-label="Show last group"
+            aria-current={
+              activePage === 1
+                ? "true"
+                : undefined
+            }
             className="
-              cursor-pointer
-              border-0 bg-transparent
-              p-1
+              cursor-pointer border-0
+              bg-transparent p-2
+
+              focus-visible:outline-none
+              focus-visible:ring-1
+              focus-visible:ring-[#E0BE3D]
             "
           >
             <span
-              className={`text-xs font-medium tracking-[0.08em] ${
-                activePage === 1
-                  ? "text-black"
-                  : "text-black/30"
-              }`}
+              className={`
+                text-xs font-medium
+                tracking-[0.08em]
+                transition-colors
+                duration-200
+
+                ${
+                  activePage === 1
+                    ? "text-black"
+                    : "text-black/30"
+                }
+              `}
             >
               02
             </span>
