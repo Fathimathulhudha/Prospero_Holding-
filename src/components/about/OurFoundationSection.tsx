@@ -43,56 +43,66 @@ export default function OurFoundationSection() {
       <div
         className="
           relative mx-auto
-          h-[clamp(545px,35.300926vw,610px)]
           w-full max-w-[1728px]
           overflow-hidden
           bg-white
+          pb-[60px]
 
-          max-md:!h-auto
-          max-md:!min-h-0
-          max-md:pb-[60px]
-          max-md:flex
-          max-md:flex-col
+          [--foundation-grid-gutter:20px]
+          [--foundation-content-gutter:40px]
+
+          md:pb-[80px]
+          md:[--foundation-grid-gutter:5%]
+          md:[--foundation-content-gutter:calc(5%+24px)]
+
+          lg:h-[clamp(545px,35.300926vw,610px)]
+          lg:pb-0
+          lg:[--foundation-grid-gutter:7.465278%]
+          lg:[--foundation-content-gutter:9.31713%]
         "
       >
-        {/* Top and side grid lines */}
+        {/* Responsive grid lines */}
         <GridLines
           thickness={0.5}
           color="#D7D7D7"
           zIndex={0}
           verticalLines={[
             {
-              left: "7.465278%",
-              className: "!left-5 md:!left-[7.465278%]",
+              left:
+                "var(--foundation-grid-gutter)",
             },
             {
-              right: "7.465278%",
-              className: "!right-5 md:!right-[7.465278%]",
+              right:
+                "var(--foundation-grid-gutter)",
             },
           ]}
           horizontalLines={[
             {
               top: 0,
-              left: "7.465278%",
-              right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              left:
+                "var(--foundation-grid-gutter)",
+              right:
+                "var(--foundation-grid-gutter)",
             },
           ]}
         />
 
-        {/* Foundation label and heading */}
+        {/* Label and heading */}
         <div
           className="
-            md:absolute
-            md:left-[9.31713%]
-            md:top-[clamp(70px,5.208333vw,90px)]
-            z-10
-            md:w-[40%]
+            relative z-10
+            mx-[var(--foundation-content-gutter)]
+            min-w-0
+            pt-[50px]
 
-            max-md:static
-            max-md:mt-[50px]
-            max-md:mx-5
-            max-md:w-auto
+            md:pt-[70px]
+
+            lg:absolute
+            lg:left-[var(--foundation-content-gutter)]
+            lg:top-[clamp(70px,5.208333vw,90px)]
+            lg:mx-0
+            lg:w-[40%]
+            lg:pt-0
           "
         >
           {/* Section label */}
@@ -107,16 +117,22 @@ export default function OurFoundationSection() {
             <span
               aria-hidden="true"
               className="
-                h-[15px] w-[15px]
+                h-[14px] w-[14px]
                 shrink-0
                 bg-[#E0BE3D]
+
+                md:h-[15px]
+                md:w-[15px]
               "
             />
 
             <Typography
               as="span"
               variant="sectionLabelDark"
-              className="whitespace-nowrap"
+              className="
+                !m-0
+                whitespace-nowrap
+              "
             >
               Our Foundation
             </Typography>
@@ -128,17 +144,30 @@ export default function OurFoundationSection() {
             distance={14}
             className="
               mt-[clamp(24px,2.083333vw,36px)]
-              w-full
+              min-w-0 w-full
             "
           >
             <Typography
               as="h2"
               variant="sectionHeadingDark"
+              className="
+                !m-0
+                min-w-0
+                !whitespace-normal
+                !break-words
+                !text-[clamp(30px,8vw,40px)]
+                !leading-[1.14]
+                !tracking-[-0.045em]
+
+                md:!text-[clamp(36px,5vw,48px)]
+
+                lg:!text-[clamp(32px,2.777778vw,48px)]
+              "
             >
               <span
                 className="
-                  block whitespace-nowrap
-                  max-md:whitespace-normal
+                  block whitespace-normal
+                  xl:whitespace-nowrap
                 "
               >
                 The Foundation
@@ -146,8 +175,8 @@ export default function OurFoundationSection() {
 
               <span
                 className="
-                  block whitespace-nowrap
-                  max-md:whitespace-normal
+                  block whitespace-normal
+                  xl:whitespace-nowrap
                 "
               >
                 of Our Growth.
@@ -159,23 +188,25 @@ export default function OurFoundationSection() {
         {/* Vision and Mission cards */}
         <div
           className="
-            md:absolute
-            md:left-[11.574074%]
-            md:right-[11.574074%]
-            md:top-[43%]
-            z-10
+            relative z-10
+            mx-[var(--foundation-content-gutter)]
+            mt-[42px]
+            grid min-w-0
+            grid-cols-1
+            gap-[20px]
 
-            md:grid
-            md:h-[clamp(230px,15.625vw,270px)]
+            md:mt-[52px]
             md:grid-cols-2
-            md:gap-[clamp(22px,2.314815vw,40px)]
+            md:gap-[22px]
 
-            max-md:static
-            max-md:mt-[36px]
-            max-md:mx-5
-            max-md:flex
-            max-md:flex-col
-            max-md:gap-4
+            lg:absolute
+            lg:left-[11.574074%]
+            lg:right-[11.574074%]
+            lg:top-[43%]
+            lg:mx-0
+            lg:mt-0
+            lg:h-[clamp(230px,15.625vw,270px)]
+            lg:gap-[clamp(22px,2.314815vw,40px)]
           "
         >
           {foundationCards.map(
@@ -185,31 +216,43 @@ export default function OurFoundationSection() {
               return (
                 <ScrollReveal
                   key={card.title}
-                  delay={160 + index * 70}
+                  delay={
+                    160 + index * 70
+                  }
                   distance={12}
                   className="
-                    h-full min-h-0
-                    max-md:h-auto
+                    h-full min-w-0
                   "
                 >
                   <article
                     className="
                       group relative
-                      h-full w-full
+                      flex h-full
+                      min-h-[280px]
+                      w-full min-w-0
+                      flex-col
                       overflow-hidden
                       border border-[#E3E3E3]
                       bg-[#FAFAFA]
+                      p-[30px]
                       transition-[background-color,border-color,box-shadow]
                       duration-300 ease-out
+
+                      sm:min-h-[290px]
+                      sm:p-[32px]
+
+                      md:min-h-[300px]
+                      md:p-[32px]
+
+                      lg:block
+                      lg:min-h-0
+                      lg:p-0
 
                       hover:border-[#D5D5D5]
                       hover:bg-white
                       hover:shadow-[0_12px_32px_rgba(0,0,0,0.045)]
 
-                      max-md:p-[28px]
-                      max-md:flex
-                      max-md:flex-col
-                      max-md:gap-[16px]
+                      motion-reduce:transition-none
                     "
                   >
                     {/* Hover accent */}
@@ -227,71 +270,103 @@ export default function OurFoundationSection() {
                         ease-[cubic-bezier(0.22,1,0.36,1)]
 
                         group-hover:scale-x-100
+
+                        motion-reduce:transition-none
                       "
                     />
 
                     {/* Card icon */}
                     <Icon
                       aria-hidden="true"
-                      strokeWidth={1.8}
+                      strokeWidth={1.7}
                       className="
-                        md:absolute
-                        md:left-[7.8%]
-                        md:top-[16%]
-                        h-[clamp(20px,1.388889vw,24px)]
-                        w-[clamp(20px,1.388889vw,24px)]
+                        static
+                        h-[26px] w-[26px]
+                        shrink-0
                         text-[#7D7D7D]
                         transition-colors
                         duration-300
 
                         group-hover:text-[#E0BE3D]
 
-                        max-md:static
+                        lg:absolute
+                        lg:left-[7.8%]
+                        lg:top-[16%]
+                        lg:h-[clamp(20px,1.388889vw,24px)]
+                        lg:w-[clamp(20px,1.388889vw,24px)]
+
+                        motion-reduce:transition-none
                       "
                     />
 
-                    {/* Card title */}
-                    <Typography
-                      as="h3"
-                      variant="sectionBodyDark"
+                    {/* Mobile/tablet spacing wrapper */}
+                    <div
                       className="
-                        md:absolute
-                        md:left-[7.8%]
-                        md:top-[44%]
-                        !m-0
-                        !text-[clamp(16px,1.157407vw,20px)]
-                        !font-medium
-                        !leading-none
-                        !tracking-[-0.03em]
-                        !text-black
+                        mt-[28px]
+                        flex min-w-0
+                        flex-col gap-[16px]
 
-                        max-md:static
+                        md:mt-[30px]
+                        md:gap-[18px]
+
+                        lg:contents
                       "
                     >
-                      {card.title}
-                    </Typography>
+                      {/* Card title */}
+                      <Typography
+                        as="h3"
+                        variant="sectionBodyDark"
+                        className="
+                          !m-0
+                          !whitespace-normal
+                          !break-words
+                          !text-[19px]
+                          !font-medium
+                          !leading-[1.2]
+                          !tracking-[-0.03em]
+                          !text-black
 
-                    {/* Card description */}
-                    <Typography
-                      as="p"
-                      variant="statLabel"
-                      className="
-                        md:absolute
-                        md:left-[7.8%]
-                        md:top-[58%]
-                        md:w-[82%]
-                        !m-0
-                        !font-normal
-                        !leading-[1.35]
-                        !tracking-[-0.015em]
-                        !text-[#777777]
+                          md:!text-[20px]
 
-                        max-md:static
-                        max-md:w-full
-                      "
-                    >
-                      {card.description}
-                    </Typography>
+                          lg:absolute
+                          lg:left-[7.8%]
+                          lg:top-[44%]
+                          lg:!text-[clamp(16px,1.157407vw,20px)]
+                          lg:!leading-none
+                        "
+                      >
+                        {card.title}
+                      </Typography>
+
+                      {/* Card description */}
+                      <Typography
+                        as="p"
+                        variant="statLabel"
+                        className="
+                          !m-0
+                          w-full
+                          !whitespace-normal
+                          !break-words
+                          !text-[14px]
+                          !font-normal
+                          !leading-[1.55]
+                          !tracking-[-0.015em]
+                          !text-[#777777]
+
+                          md:!text-[15px]
+                          md:!leading-[1.55]
+
+                          lg:absolute
+                          lg:left-[7.8%]
+                          lg:top-[58%]
+                          lg:w-[82%]
+                          lg:!text-[clamp(13px,0.925926vw,16px)]
+                          lg:!leading-[1.35]
+                        "
+                      >
+                        {card.description}
+                      </Typography>
+                    </div>
                   </article>
                 </ScrollReveal>
               );

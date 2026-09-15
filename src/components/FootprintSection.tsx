@@ -69,16 +69,17 @@ function CountUp({
     useRef<number | null>(null);
 
   const timeoutRef =
-    useRef<ReturnType<typeof setTimeout> | null>(
-      null,
-    );
+    useRef<number | null>(null);
 
-  const hasAnimatedRef = useRef(false);
+  const hasAnimatedRef =
+    useRef(false);
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] =
+    useState(0);
 
   useEffect(() => {
-    const counter = counterRef.current;
+    const counter =
+      counterRef.current;
 
     if (!counter) {
       return;
@@ -101,54 +102,69 @@ function CountUp({
         return;
       }
 
-      timeoutRef.current = setTimeout(() => {
-        const startTime = performance.now();
+      timeoutRef.current =
+        window.setTimeout(() => {
+          const startTime =
+            performance.now();
 
-        const updateCount = (
-          currentTime: number,
-        ) => {
-          const elapsed =
-            currentTime - startTime;
+          const updateCount = (
+            currentTime: number,
+          ) => {
+            const elapsed =
+              currentTime - startTime;
 
-          const progress = Math.min(
-            elapsed / duration,
-            1,
-          );
-
-          const easedProgress =
-            1 - Math.pow(1 - progress, 4);
-
-          setCount(
-            Math.round(end * easedProgress),
-          );
-
-          if (progress < 1) {
-            animationFrameRef.current =
-              requestAnimationFrame(
-                updateCount,
+            const progress =
+              Math.min(
+                elapsed / duration,
+                1,
               );
-          } else {
-            setCount(end);
-            animationFrameRef.current =
-              null;
-          }
-        };
 
-        animationFrameRef.current =
-          requestAnimationFrame(updateCount);
-      }, delay);
+            const easedProgress =
+              1 -
+              Math.pow(
+                1 - progress,
+                4,
+              );
+
+            setCount(
+              Math.round(
+                end * easedProgress,
+              ),
+            );
+
+            if (progress < 1) {
+              animationFrameRef.current =
+                requestAnimationFrame(
+                  updateCount,
+                );
+            } else {
+              setCount(end);
+
+              animationFrameRef.current =
+                null;
+            }
+          };
+
+          animationFrameRef.current =
+            requestAnimationFrame(
+              updateCount,
+            );
+        }, delay);
     };
 
     const observer =
       new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
+          if (
+            entry &&
+            entry.isIntersecting
+          ) {
             startAnimation();
             observer.disconnect();
           }
         },
         {
-          threshold: 0.35,
+          threshold: 0.25,
           rootMargin:
             "0px 0px -5% 0px",
         },
@@ -159,19 +175,26 @@ function CountUp({
     return () => {
       observer.disconnect();
 
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
+      if (
+        timeoutRef.current !== null
+      ) {
+        window.clearTimeout(
+          timeoutRef.current,
+        );
+
         timeoutRef.current = null;
       }
 
       if (
-        animationFrameRef.current !== null
+        animationFrameRef.current !==
+        null
       ) {
         cancelAnimationFrame(
           animationFrameRef.current,
         );
 
-        animationFrameRef.current = null;
+        animationFrameRef.current =
+          null;
       }
     };
   }, [delay, duration, end]);
@@ -213,8 +236,6 @@ export default function FootprintSection() {
           max-md:!min-h-0
           max-md:max-h-none
           max-md:pb-[60px]
-          max-md:flex
-          max-md:flex-col
         "
         style={{
           height: `
@@ -239,7 +260,8 @@ export default function FootprintSection() {
           verticalLines={[
             {
               left: "7.465278%",
-              className: "!left-5 md:!left-[7.465278%]",
+              className:
+                "!left-5 md:!left-[7.465278%]",
             },
             {
               left: "50%",
@@ -247,7 +269,8 @@ export default function FootprintSection() {
             },
             {
               right: "7.465278%",
-              className: "!right-5 md:!right-[7.465278%]",
+              className:
+                "!right-5 md:!right-[7.465278%]",
             },
           ]}
         />
@@ -258,10 +281,11 @@ export default function FootprintSection() {
           className="
             pointer-events-none
             absolute left-5 right-5
-            md:left-[7.465278%]
-            md:right-[7.465278%]
             top-0 z-[5]
             bg-[#D7D7D7]
+
+            md:left-[7.465278%]
+            md:right-[7.465278%]
           "
           style={{
             height: "0.5px",
@@ -275,101 +299,132 @@ export default function FootprintSection() {
             pointer-events-none
             absolute bottom-0
             left-5 right-5
-            md:left-[7.465278%]
-            md:right-[7.465278%]
             z-[5]
             bg-[#D7D7D7]
+
+            md:left-[7.465278%]
+            md:right-[7.465278%]
           "
           style={{
             height: "0.5px",
           }}
         />
 
-        {/* Our Footprint label */}
-        <ScrollReveal
-          delay={100}
-          distance={12}
+        {/* Label */}
+        <div
           className="
+            relative z-10
+            mx-5 px-5
+            pt-[50px]
+
             md:absolute
             md:left-[9.31713%]
             md:top-[14%]
-            z-10
-            flex items-center
-            gap-[10px]
-
-            max-md:static
-            max-md:mt-[50px]
-            max-md:mx-5
+            md:mx-0
+            md:px-0
+            md:pt-0
           "
         >
-          <span
-            aria-hidden="true"
+          <ScrollReveal
+            delay={100}
+            distance={12}
             className="
-              h-[15px] w-[15px]
-              shrink-0
-              bg-[#E0BE3D]
+              flex items-center
+              gap-[10px]
             "
-          />
-
-          <Typography
-            as="span"
-            variant="sectionLabelDark"
-            className="whitespace-nowrap"
           >
-            Our Footprint
-          </Typography>
-        </ScrollReveal>
+            <span
+              aria-hidden="true"
+              className="
+                h-[14px] w-[14px]
+                shrink-0
+                bg-[#E0BE3D]
+
+                md:h-[15px]
+                md:w-[15px]
+              "
+            />
+
+            <Typography
+              as="span"
+              variant="sectionLabelDark"
+              className="
+                !m-0
+                whitespace-nowrap
+              "
+            >
+              Our Footprint
+            </Typography>
+          </ScrollReveal>
+        </div>
 
         {/* Heading */}
-        <ScrollReveal
-          delay={170}
-          distance={18}
+        <div
           className="
+            relative z-10
+            mx-5 mt-[24px]
+            min-w-0 px-5
+
             md:absolute
             md:left-[9.31713%]
             md:top-[24%]
-            z-10
-            w-[40%]
+            md:mx-0
+            md:mt-0
+            md:w-[48%]
+            md:px-0
 
-            max-lg:w-[48%]
-
-            max-md:static
-            max-md:mt-[20px]
-            max-md:mx-5
-            max-md:w-auto
+            lg:w-[40%]
           "
         >
-          <Typography
-            as="h2"
-            variant="sectionHeadingDark"
+          <ScrollReveal
+            delay={170}
+            distance={18}
+            className="min-w-0"
           >
-            <span
+            <Typography
+              as="h2"
+              variant="sectionHeadingDark"
               className="
-                block whitespace-nowrap
-                max-md:whitespace-normal
+                min-w-0
+                !m-0
+                !break-words
+                !text-[clamp(30px,8vw,38px)]
+                !leading-[1.14]
+                !tracking-[-0.045em]
+
+                md:!text-[clamp(32px,2.777778vw,48px)]
               "
             >
-              Built Across Markets.
-            </span>
+              <span
+                className="
+                  block whitespace-normal
 
-            <span
-              className="
-                block whitespace-nowrap
-                max-md:whitespace-normal
-              "
-            >
-              Connected by Purpose.
-            </span>
-          </Typography>
-        </ScrollReveal>
+                  xl:whitespace-nowrap
+                "
+              >
+                Built Across Markets.
+              </span>
 
-        {/* Desktop statistics */}
+              <span
+                className="
+                  block whitespace-normal
+
+                  xl:whitespace-nowrap
+                "
+              >
+                Connected by Purpose.
+              </span>
+            </Typography>
+          </ScrollReveal>
+        </div>
+
+        {/* Desktop and tablet statistics */}
         <div
           className="
             absolute inset-0
-            z-10
+            z-10 hidden
 
-            max-md:hidden
+            md:block
           "
         >
           {statistics.map(
@@ -377,7 +432,8 @@ export default function FootprintSection() {
               <div
                 key={item.label}
                 className="
-                  absolute top-[56%]
+                  absolute
+                  top-[56%]
                   h-[100px]
                 "
                 style={{
@@ -390,21 +446,21 @@ export default function FootprintSection() {
                   }
                   distance={16}
                   className="
-                    relative
-                    h-full
+                    relative h-full
                   "
                 >
-                  {/* Yellow vertical line */}
+                  {/* Desktop yellow line */}
                   <div
                     aria-hidden="true"
                     className="
-                      absolute left-0 top-0
-                      h-[100px] w-[2px]
+                      absolute
+                      left-0 top-0
+                      h-[100px]
+                      w-[2px]
                       bg-[#E0BE3D]
                     "
                   />
 
-                  {/* Number */}
                   <Typography
                     as="p"
                     variant="statValue"
@@ -413,20 +469,23 @@ export default function FootprintSection() {
                       left-[28px]
                       top-[5px]
                       !m-0
-                      !leading-none
                       whitespace-nowrap
+                      !leading-none
                       tabular-nums
                     "
                   >
                     <CountUp
                       end={item.value}
                       suffix={item.suffix}
-                      duration={item.duration}
-                      delay={index * 100}
+                      duration={
+                        item.duration
+                      }
+                      delay={
+                        index * 100
+                      }
                     />
                   </Typography>
 
-                  {/* Statistic label */}
                   <Typography
                     as="p"
                     variant="statLabel"
@@ -435,8 +494,8 @@ export default function FootprintSection() {
                       left-[28px]
                       top-[64px]
                       !m-0
-                      !leading-none
                       whitespace-nowrap
+                      !leading-none
                     "
                   >
                     {item.label}
@@ -450,14 +509,15 @@ export default function FootprintSection() {
         {/* Mobile statistics */}
         <div
           className="
+            relative z-10
+            mx-5 mt-[42px]
+            grid min-w-0
+            grid-cols-2
+            gap-x-[20px]
+            gap-y-[36px]
+            px-5
+
             md:hidden
-            max-md:static
-            max-md:mt-[36px]
-            max-md:mx-5
-            max-md:grid
-            max-md:grid-cols-2
-            max-md:gap-x-[20px]
-            max-md:gap-y-[36px]
           "
         >
           {statistics.map(
@@ -473,29 +533,35 @@ export default function FootprintSection() {
                 <div
                   className="
                     relative
-                    h-[105px]
-                    border-l-2
+                    h-[104px]
+                    min-w-0
+                    overflow-hidden
+                    border-l-[1px]
                     border-[#E0BE3D]
-                    pl-[18px]
+                    pl-[16px]
                   "
                 >
                   <Typography
                     as="p"
                     variant="statValue"
                     className="
-                      absolute left-[18px]
-                      top-[5px]
                       !m-0
-                      !leading-none
                       whitespace-nowrap
+                      !text-[clamp(30px,8.5vw,38px)]
+                      !leading-none
+                      !tracking-[-0.04em]
                       tabular-nums
                     "
                   >
                     <CountUp
                       end={item.value}
                       suffix={item.suffix}
-                      duration={item.duration}
-                      delay={index * 100}
+                      duration={
+                        item.duration
+                      }
+                      delay={
+                        index * 100
+                      }
                     />
                   </Typography>
 
@@ -503,11 +569,17 @@ export default function FootprintSection() {
                     as="p"
                     variant="statLabel"
                     className="
-                      absolute left-[18px]
-                      top-[66px]
+                      absolute
+                      bottom-[12px]
+                      left-[16px]
+                      right-[4px]
                       !m-0
-                      !leading-none
+                      overflow-hidden
+                      text-ellipsis
                       whitespace-nowrap
+                      !text-[13px]
+                      !leading-none
+                      !text-[#777777]
                     "
                   >
                     {item.label}

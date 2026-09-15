@@ -1,5 +1,9 @@
 "use client";
 
+import type {
+  MouseEvent,
+} from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -104,30 +108,56 @@ function FooterNavigationLink({
 }: FooterLink) {
   const pathname = usePathname();
   const lenis = useLenis();
-  const isHomePage = pathname === "/";
-  const opensNewTab = href.startsWith("http");
 
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (href.startsWith("/#")) {
-      const sectionId = href.replace("/#", "");
-      if (isHomePage) {
-        event.preventDefault();
-        const target = document.getElementById(sectionId);
-        if (target) {
-          window.history.pushState(null, "", href);
-          if (lenis) {
-            lenis.scrollTo(target, {
-              offset: -72,
-              immediate: false,
-            });
-          } else {
-            target.scrollIntoView({ behavior: "smooth" });
-          }
-        }
-      } else {
-        sessionStorage.setItem("prospero-pending-section", sectionId);
-      }
+  const isHomePage = pathname === "/";
+  const opensNewTab =
+    href.startsWith("http");
+
+  const handleClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+  ) => {
+    if (!href.startsWith("/#")) {
+      return;
     }
+
+    const sectionId =
+      href.replace("/#", "");
+
+    if (isHomePage) {
+      event.preventDefault();
+
+      const target =
+        document.getElementById(sectionId);
+
+      if (!target) {
+        return;
+      }
+
+      window.history.pushState(
+        null,
+        "",
+        href,
+      );
+
+      if (lenis) {
+        lenis.scrollTo(target, {
+          offset: -72,
+          immediate: false,
+        });
+      } else {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      return;
+    }
+
+    sessionStorage.setItem(
+      "prospero-pending-section",
+      sectionId,
+    );
   };
 
   return (
@@ -147,6 +177,7 @@ function FooterNavigationLink({
       className="
         group block w-fit
         whitespace-nowrap
+        text-inherit no-underline
 
         focus-visible:outline-none
         focus-visible:ring-1
@@ -159,6 +190,7 @@ function FooterNavigationLink({
         as="span"
         variant="statLabel"
         className="
+          !m-0
           !font-normal
           !leading-[1.35]
           !tracking-[-0.015em]
@@ -168,6 +200,8 @@ function FooterNavigationLink({
 
           group-hover:!text-white
           group-focus-visible:!text-white
+
+          motion-reduce:transition-none
         "
       >
         {label}
@@ -192,163 +226,312 @@ export default function Footer() {
         bg-black text-white
       "
     >
-      {/* Mobile & Tablet Responsive Layout (<1024px) */}
-      <div className="relative mx-auto w-full max-w-[1728px] px-5 py-12 sm:px-8 md:px-12 md:py-16 lg:hidden">
-        {/* Subtle border outline adapting to gutters */}
-        <div className="pointer-events-none absolute inset-x-5 top-0 border-t border-[#292929] sm:inset-x-8 md:inset-x-12" />
+      {/* Mobile and tablet layout */}
+      <div
+        className="
+          relative mx-auto
+          w-full max-w-[1728px]
+          px-5 py-12
 
-        {/* Links Grid: 2 columns on mobile, 3 columns on tablet */}
-        <div className="grid grid-cols-2 gap-8 gap-y-10 sm:grid-cols-3 md:gap-10">
-          {/* Explore column */}
-          <ScrollReveal delay={40} distance={10}>
+          sm:px-8
+
+          md:px-12
+          md:py-16
+
+          lg:hidden
+        "
+      >
+        {/* Top boundary */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute inset-x-5 top-0
+            border-t border-[#292929]
+
+            sm:inset-x-8
+            md:inset-x-12
+          "
+        />
+
+        {/* Navigation columns */}
+        <div
+          className="
+            grid grid-cols-2
+            gap-x-8 gap-y-10
+
+            sm:grid-cols-3
+
+            md:gap-x-10
+          "
+        >
+          {/* Explore */}
+          <ScrollReveal
+            delay={40}
+            distance={10}
+          >
             <Typography
               as="p"
               variant="footerLabel"
-              className="!text-sm !font-medium !text-white uppercase tracking-wider"
+              className="
+                !m-0
+                !text-sm
+                !font-medium
+                uppercase
+                tracking-wider
+                !text-white
+              "
             >
               Explore
             </Typography>
 
             <nav
               aria-label="Explore links"
-              className="mt-4 flex flex-col gap-2.5"
+              className="
+                mt-4 flex
+                flex-col gap-2.5
+              "
             >
-              {exploreLinks.map((item) => (
-                <FooterNavigationLink
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                />
-              ))}
+              {exploreLinks.map(
+                (item) => (
+                  <FooterNavigationLink
+                    key={item.label}
+                    label={item.label}
+                    href={item.href}
+                  />
+                ),
+              )}
             </nav>
           </ScrollReveal>
 
-          {/* Group column */}
-          <ScrollReveal delay={90} distance={10}>
+          {/* Groups */}
+          <ScrollReveal
+            delay={90}
+            distance={10}
+          >
             <Typography
               as="p"
               variant="footerLabel"
-              className="!text-sm !font-medium !text-white uppercase tracking-wider"
+              className="
+                !m-0
+                !text-sm
+                !font-medium
+                uppercase
+                tracking-wider
+                !text-white
+              "
             >
-              Group
+              Groups
             </Typography>
 
             <nav
               aria-label="Prospero group links"
-              className="mt-4 flex flex-col gap-2.5"
+              className="
+                mt-4 flex
+                flex-col gap-2.5
+              "
             >
-              {groupLinks.map((item) => (
-                <FooterNavigationLink
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                />
-              ))}
+              {groupLinks.map(
+                (item) => (
+                  <FooterNavigationLink
+                    key={item.label}
+                    label={item.label}
+                    href={item.href}
+                  />
+                ),
+              )}
             </nav>
           </ScrollReveal>
 
-          {/* Legal column */}
-          <ScrollReveal delay={140} distance={10} className="col-span-2 sm:col-span-1">
+          {/* Legal */}
+          <ScrollReveal
+            delay={140}
+            distance={10}
+            className="
+              col-span-2
+              sm:col-span-1
+            "
+          >
             <Typography
               as="p"
               variant="footerLabel"
-              className="!text-sm !font-medium !text-white uppercase tracking-wider"
+              className="
+                !m-0
+                !text-sm
+                !font-medium
+                uppercase
+                tracking-wider
+                !text-white
+              "
             >
               Legal
             </Typography>
 
             <nav
               aria-label="Legal links"
-              className="mt-4 flex flex-col gap-2.5"
+              className="
+                mt-4 flex
+                flex-col gap-2.5
+              "
             >
-              {legalLinks.map((item) => (
-                <FooterNavigationLink
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                />
-              ))}
+              {legalLinks.map(
+                (item) => (
+                  <FooterNavigationLink
+                    key={item.label}
+                    label={item.label}
+                    href={item.href}
+                  />
+                ),
+              )}
             </nav>
           </ScrollReveal>
         </div>
 
-        {/* Separator line */}
-        <div className="my-10 border-t border-[#292929] md:my-12" />
+        {/* Separator */}
+        <div
+          aria-hidden="true"
+          className="
+            my-10
+            border-t border-[#292929]
 
-        {/* Middle row: Logo & Social links */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <ScrollReveal delay={180} distance={10}>
+            md:my-12
+          "
+        />
+
+        {/* Logo and social links */}
+        <div
+          className="
+            flex flex-col gap-6
+
+            md:flex-row
+            md:items-center
+            md:justify-between
+          "
+        >
+          <ScrollReveal
+            delay={180}
+            distance={10}
+          >
             <Link
               href="/"
               aria-label="Prospero Holding home"
               className="
                 relative block
-                h-10 w-[180px] sm:h-12 sm:w-[220px] md:h-14 md:w-[260px]
+                h-10 w-[180px]
                 transition-opacity
                 duration-300
+
+                sm:h-12
+                sm:w-[220px]
+
+                md:h-14
+                md:w-[260px]
+
                 hover:opacity-80
+
                 focus-visible:outline-none
                 focus-visible:ring-1
                 focus-visible:ring-[#E0BE3D]
                 focus-visible:ring-offset-4
                 focus-visible:ring-offset-black
+
+                motion-reduce:transition-none
               "
             >
               <Image
                 src="/images/company-logos/prospero-holding.svg"
                 alt="Prospero Holding"
                 fill
-                sizes="(max-width: 768px) 220px, 260px"
-                className="object-contain object-left"
+                loading="eager"
+                fetchPriority="high"
+                draggable={false}
+                sizes="
+                  (max-width: 639px) 180px,
+                  (max-width: 767px) 220px,
+                  260px
+                "
+                className="
+                  select-none
+                  object-contain
+                  object-left
+                "
               />
             </Link>
           </ScrollReveal>
 
-          <ScrollReveal delay={220} distance={10}>
+          <ScrollReveal
+            delay={220}
+            distance={10}
+          >
             <nav
               aria-label="Social links"
-              className="flex flex-wrap items-center gap-5 sm:gap-6"
+              className="
+                flex flex-wrap
+                items-center
+                gap-5
+
+                sm:gap-6
+              "
             >
-              {socialLinks.map((item) => (
-                <FooterNavigationLink
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                />
-              ))}
+              {socialLinks.map(
+                (item) => (
+                  <FooterNavigationLink
+                    key={item.label}
+                    label={item.label}
+                    href={item.href}
+                  />
+                ),
+              )}
             </nav>
           </ScrollReveal>
         </div>
 
-        {/* Separator line */}
-        <div className="my-8 border-t border-[#292929]" />
+        {/* Separator */}
+        <div
+          aria-hidden="true"
+          className="
+            my-8
+            border-t border-[#292929]
+          "
+        />
 
-        {/* Bottom row: Copyright */}
-        <ScrollReveal delay={260} distance={8}>
+        {/* Copyright */}
+        <ScrollReveal
+          delay={260}
+          distance={8}
+        >
           <Typography
             as="p"
             variant="copyright"
-            className="!text-xs text-[#8E8E8E]"
+            className="
+              !m-0
+              !text-xs
+              !whitespace-normal
+              !text-[#8E8E8E]
+            "
           >
-            © 2026 Prospero Holding. All rights reserved.
+            © 2026 Prospero Holding. All rights
+            reserved.
           </Typography>
         </ScrollReveal>
       </div>
 
-      {/* Desktop Exact Coordinates Layout (>=1024px) */}
+      {/* Desktop layout */}
       <div
         className="
-          relative mx-auto hidden
-          h-[calc(100svh_-_var(--navbar-height,108px))]
+          relative mx-auto
+          hidden
+          h-[calc(100svh-var(--navbar-height,108px))]
           min-h-[620px]
           max-h-[760px]
           w-full max-w-[1728px]
           overflow-hidden
           bg-black
+
           lg:block
         "
       >
-        {/* Footer grid lines */}
+        {/* Desktop grid lines */}
         <GridLines
           thickness={0.5}
           color="#292929"
@@ -404,7 +587,9 @@ export default function Footer() {
           <Typography
             as="p"
             variant="footerLabel"
-            className="whitespace-nowrap"
+            className="
+              !m-0 whitespace-nowrap
+            "
           >
             Explore
           </Typography>
@@ -417,17 +602,19 @@ export default function Footer() {
               gap-[clamp(7px,0.578704vw,10px)]
             "
           >
-            {exploreLinks.map((item) => (
-              <FooterNavigationLink
-                key={item.label}
-                label={item.label}
-                href={item.href}
-              />
-            ))}
+            {exploreLinks.map(
+              (item) => (
+                <FooterNavigationLink
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                />
+              ),
+            )}
           </nav>
         </ScrollReveal>
 
-        {/* Group column */}
+        {/* Groups column */}
         <ScrollReveal
           delay={90}
           distance={10}
@@ -441,9 +628,11 @@ export default function Footer() {
           <Typography
             as="p"
             variant="footerLabel"
-            className="whitespace-nowrap"
+            className="
+              !m-0 whitespace-nowrap
+            "
           >
-            Group
+            Groups
           </Typography>
 
           <nav
@@ -454,13 +643,15 @@ export default function Footer() {
               gap-[clamp(7px,0.578704vw,10px)]
             "
           >
-            {groupLinks.map((item) => (
-              <FooterNavigationLink
-                key={item.label}
-                label={item.label}
-                href={item.href}
-              />
-            ))}
+            {groupLinks.map(
+              (item) => (
+                <FooterNavigationLink
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                />
+              ),
+            )}
           </nav>
         </ScrollReveal>
 
@@ -478,7 +669,9 @@ export default function Footer() {
           <Typography
             as="p"
             variant="footerLabel"
-            className="whitespace-nowrap"
+            className="
+              !m-0 whitespace-nowrap
+            "
           >
             Legal
           </Typography>
@@ -491,13 +684,15 @@ export default function Footer() {
               gap-[clamp(7px,0.578704vw,10px)]
             "
           >
-            {legalLinks.map((item) => (
-              <FooterNavigationLink
-                key={item.label}
-                label={item.label}
-                href={item.href}
-              />
-            ))}
+            {legalLinks.map(
+              (item) => (
+                <FooterNavigationLink
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                />
+              ),
+            )}
           </nav>
         </ScrollReveal>
 
@@ -530,16 +725,25 @@ export default function Footer() {
               focus-visible:ring-[#E0BE3D]
               focus-visible:ring-offset-4
               focus-visible:ring-offset-black
+
+              motion-reduce:transition-none
             "
           >
             <Image
               src="/images/company-logos/prospero-holding.svg"
               alt="Prospero Holding"
               fill
-              sizes="(max-width: 1728px) 48vw, 830px"
+              loading="eager"
+              fetchPriority="high"
+              draggable={false}
+              sizes="
+                (max-width: 1728px) 48vw,
+                830px
+              "
               className="
                 origin-left
                 scale-[1.35]
+                select-none
                 object-contain
                 object-left
               "
@@ -565,13 +769,15 @@ export default function Footer() {
               gap-[clamp(16px,1.50463vw,26px)]
             "
           >
-            {socialLinks.map((item) => (
-              <FooterNavigationLink
-                key={item.label}
-                label={item.label}
-                href={item.href}
-              />
-            ))}
+            {socialLinks.map(
+              (item) => (
+                <FooterNavigationLink
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                />
+              ),
+            )}
           </nav>
         </ScrollReveal>
 
@@ -589,7 +795,9 @@ export default function Footer() {
           <Typography
             as="p"
             variant="copyright"
-            className="whitespace-nowrap"
+            className="
+              !m-0 whitespace-nowrap
+            "
           >
             © 2026 Prospero Holding. All rights
             reserved.

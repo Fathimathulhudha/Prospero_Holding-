@@ -22,11 +22,20 @@ export default function OurPurposeSection() {
           overflow-hidden
           bg-white
 
-          max-md:!h-auto
-          max-md:!min-h-0
-          max-md:pb-[60px]
-          max-md:flex
-          max-md:flex-col
+          [--purpose-grid-gutter:20px]
+          [--purpose-content-padding:20px]
+
+          max-lg:!h-auto
+          max-lg:!min-h-0
+          max-lg:pb-[60px]
+
+          md:[--purpose-grid-gutter:5%]
+          md:[--purpose-content-padding:24px]
+          md:pb-[80px]
+
+          lg:[--purpose-grid-gutter:7.465278%]
+          lg:[--purpose-content-padding:clamp(28px,2.083333vw,36px)]
+          lg:pb-0
         "
         style={{
           height: `
@@ -49,16 +58,16 @@ export default function OurPurposeSection() {
           zIndex={1}
           verticalLines={[
             {
-              left: "7.465278%",
-              className: "!left-5 md:!left-[7.465278%]",
+              left:
+                "var(--purpose-grid-gutter)",
             },
             {
               left: "50%",
-              hideOnMobile: true,
+              className: "hidden lg:block",
             },
             {
-              right: "7.465278%",
-              className: "!right-5 md:!right-[7.465278%]",
+              right:
+                "var(--purpose-grid-gutter)",
             },
           ]}
           horizontalLines={[
@@ -66,19 +75,19 @@ export default function OurPurposeSection() {
               top: "5%",
               left: "7.465278%",
               right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              className: "hidden lg:block",
             },
             {
               top: "54.5%",
               left: "7.465278%",
               right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              className: "hidden lg:block",
             },
             {
               top: "60%",
               left: "7.465278%",
               right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              className: "hidden lg:block",
             },
           ]}
         />
@@ -86,32 +95,43 @@ export default function OurPurposeSection() {
         {/* Building image */}
         <div
           className="
-            md:absolute
-            md:left-[7.465278%]
-            md:right-[7.465278%]
-            md:top-[5%]
-            md:h-[49.5%]
-            z-10
+            relative z-10
+            mx-[var(--purpose-grid-gutter)]
+            mt-[30px]
+            aspect-[16/10]
             overflow-hidden
             bg-[#E7EBEF]
 
-            max-md:relative
-            max-md:mx-5
-            max-md:mt-[30px]
-            max-md:aspect-[16/10]
-            max-md:h-auto
+            md:mt-[40px]
+            md:aspect-[16/8]
+
+            lg:absolute
+            lg:left-[7.465278%]
+            lg:right-[7.465278%]
+            lg:top-[5%]
+            lg:mx-0
+            lg:mt-0
+            lg:h-[49.5%]
+            lg:aspect-auto
           "
         >
           <Image
             src="/about/our-purpose.jpg"
             alt="Modern business buildings"
             fill
-            loading="lazy"
+            loading="eager"
+            fetchPriority="high"
             quality={85}
-            sizes="(max-width: 768px) 85vw, (max-width: 1728px) 85.069444vw, 1470px"
+            draggable={false}
+            sizes="
+              (max-width: 767px) calc(100vw - 40px),
+              (max-width: 1023px) 90vw,
+              (max-width: 1728px) 85.069444vw,
+              1470px
+            "
             className="
-              object-cover
-              object-center
+              select-none
+              object-cover object-center
             "
           />
 
@@ -126,7 +146,7 @@ export default function OurPurposeSection() {
           />
         </div>
 
-        {/* Empty space between image and content */}
+        {/* Desktop image/content spacing */}
         <div
           aria-hidden="true"
           className="
@@ -135,145 +155,153 @@ export default function OurPurposeSection() {
             left-[7.465278%]
             right-[7.465278%]
             top-[54.5%]
-            h-[5.5%]
+            hidden h-[5.5%]
             bg-white
 
-            max-md:hidden
+            lg:block
           "
         />
 
         {/* Content area */}
         <div
           className="
-            md:absolute md:bottom-0
-            md:left-[7.465278%]
-            md:right-[7.465278%]
-            md:top-[60%]
-            z-20
+            relative z-20
+            mx-[var(--purpose-grid-gutter)]
+            mt-[40px]
+            grid grid-cols-1
 
-            md:grid md:grid-cols-2
+            md:mt-[48px]
+            md:grid-cols-2
 
-            max-md:relative
-            max-md:mx-5
-            max-md:mt-[30px]
-            max-md:flex
-            max-md:flex-col
+            lg:absolute
+            lg:bottom-0
+            lg:left-[7.465278%]
+            lg:right-[7.465278%]
+            lg:top-[60%]
+            lg:mx-0
+            lg:mt-0
           "
         >
-          {/* Mobile horizontal divider */}
-          <div
-            aria-hidden="true"
-            className="
-              pointer-events-none
-              my-[24px]
-              hidden
-              bg-[#D7D7D7]
-
-              max-md:block
-            "
-            style={{
-              height: "0.5px",
-            }}
-          />
-
           {/* Left content column */}
           <div
             className="
               relative min-w-0
-              px-[clamp(28px,2.083333vw,36px)]
-              pb-[clamp(42px,3.472222vw,60px)]
-              pt-[clamp(70px,5.208333vw,90px)]
+              px-[var(--purpose-content-padding)]
+              pb-[10px]
+              pt-[10px]
 
-              max-md:px-[20px]
-              max-md:pb-[10px]
-              max-md:pt-[10px]
+              md:pb-[30px]
+              md:pt-[40px]
+
+              lg:px-[clamp(28px,2.083333vw,36px)]
+              lg:pb-[clamp(42px,3.472222vw,60px)]
+              lg:pt-[clamp(70px,5.208333vw,90px)]
             "
           >
-            <div className="w-full">
-              {/* Our Purpose label */}
-              <ScrollReveal
-                delay={50}
-                distance={10}
+            {/* Our Purpose label */}
+            <ScrollReveal
+              delay={50}
+              distance={10}
+              className="
+                flex items-center
+                gap-[10px]
+              "
+            >
+              <span
+                aria-hidden="true"
                 className="
-                  flex items-center
-                  gap-[10px]
+                  h-[14px] w-[14px]
+                  shrink-0
+                  bg-[#E0BE3D]
+
+                  md:h-[15px]
+                  md:w-[15px]
+                "
+              />
+
+              <Typography
+                as="span"
+                variant="sectionLabelDark"
+                className="
+                  !m-0
+                  whitespace-nowrap
+                "
+              >
+                Our Purpose
+              </Typography>
+            </ScrollReveal>
+
+            {/* Purpose heading */}
+            <ScrollReveal
+              delay={120}
+              distance={16}
+              className="
+                mt-[clamp(24px,2.083333vw,36px)]
+                min-w-0 w-full
+              "
+            >
+              <Typography
+                as="h2"
+                variant="sectionHeadingDark"
+                className="
+                  !m-0
+                  min-w-0
+                  !whitespace-normal
+                  !break-words
+                  !text-[clamp(30px,8vw,40px)]
+                  !leading-[1.14]
+                  !tracking-[-0.045em]
+
+                  md:!text-[clamp(32px,4.5vw,44px)]
+
+                  lg:!text-[clamp(32px,2.777778vw,48px)]
                 "
               >
                 <span
-                  aria-hidden="true"
                   className="
-                    h-[15px] w-[15px]
-                    shrink-0
-                    bg-[#E0BE3D]
+                    block whitespace-normal
+                    xl:whitespace-nowrap
                   "
-                />
-
-                <Typography
-                  as="span"
-                  variant="sectionLabelDark"
-                  className="whitespace-nowrap"
                 >
-                  Our Purpose
-                </Typography>
-              </ScrollReveal>
+                  One Vision.
+                </span>
 
-              {/* Purpose heading */}
-              <ScrollReveal
-                delay={120}
-                distance={16}
-                className="
-                  mt-[clamp(24px,2.083333vw,36px)]
-                  w-full
-                "
-              >
-                <Typography
-                  as="h2"
-                  variant="sectionHeadingDark"
+                <span
+                  className="
+                    block whitespace-normal
+                    xl:whitespace-nowrap
+                  "
                 >
-                  <span
-                    className="
-                      block whitespace-nowrap
-                      max-lg:whitespace-normal
-                    "
-                  >
-                    One Vision.
-                  </span>
-
-                  <span
-                    className="
-                      block whitespace-nowrap
-                      max-lg:whitespace-normal
-                    "
-                  >
-                    Many Opportunities.
-                  </span>
-                </Typography>
-              </ScrollReveal>
-            </div>
+                  Many Opportunities.
+                </span>
+              </Typography>
+            </ScrollReveal>
           </div>
 
           {/* Right description column */}
           <div
             className="
               relative min-w-0
-              px-[clamp(28px,2.083333vw,36px)]
-              pb-[clamp(42px,3.472222vw,60px)]
-              pt-[clamp(70px,5.208333vw,90px)]
+              px-[var(--purpose-content-padding)]
+              pb-[34px]
+              pt-[34px]
 
-              max-md:px-[20px]
-              max-md:pb-[34px]
-              max-md:pt-[34px]
+              md:pb-[30px]
+              md:pt-[40px]
+
+              lg:px-[clamp(28px,2.083333vw,36px)]
+              lg:pb-[clamp(42px,3.472222vw,60px)]
+              lg:pt-[clamp(70px,5.208333vw,90px)]
             "
           >
             <ScrollReveal
               delay={190}
               distance={16}
               className="
-                relative
-                -top-[6px]
+                relative top-0
                 w-full
 
-                max-md:top-0
+                lg:-top-[6px]
               "
             >
               <div
@@ -285,6 +313,11 @@ export default function OurPurposeSection() {
                 <Typography
                   as="p"
                   variant="sectionBodyDark"
+                  className="
+                    !m-0
+                    !whitespace-normal
+                    !break-words
+                  "
                 >
                   We bring together businesses across
                   diverse industries to create a
@@ -294,6 +327,11 @@ export default function OurPurposeSection() {
                 <Typography
                   as="p"
                   variant="sectionBodyDark"
+                  className="
+                    !m-0
+                    !whitespace-normal
+                    !break-words
+                  "
                 >
                   By combining specialized expertise
                   with strategic oversight, Prospero

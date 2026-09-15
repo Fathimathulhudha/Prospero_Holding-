@@ -98,33 +98,27 @@ export default function Navbar() {
     (!isFooterVisible &&
       (!isPastAbout || isHoverReveal));
 
-  const getNavbarHeight = useCallback(
-    () => {
-      const rootStyles = getComputedStyle(
-        document.documentElement,
-      );
+  const getNavbarHeight = useCallback(() => {
+    const rootStyles = getComputedStyle(
+      document.documentElement,
+    );
 
-      const customProperty =
-        rootStyles
-          .getPropertyValue(
-            "--navbar-height",
-          )
-          .trim();
+    const customProperty = rootStyles
+      .getPropertyValue("--navbar-height")
+      .trim();
 
-      const parsedHeight =
-        Number.parseFloat(customProperty);
+    const parsedHeight =
+      Number.parseFloat(customProperty);
 
-      if (
-        Number.isFinite(parsedHeight) &&
-        parsedHeight > 0
-      ) {
-        return parsedHeight;
-      }
+    if (
+      Number.isFinite(parsedHeight) &&
+      parsedHeight > 0
+    ) {
+      return parsedHeight;
+    }
 
-      return 0;
-    },
-    [],
-  );
+    return 0;
+  }, []);
 
   const jumpToSection = useCallback(
     (sectionId: string) => {
@@ -165,8 +159,7 @@ export default function Navbar() {
   );
 
   /*
-   * Reset temporary navbar states when
-   * changing between pages.
+   * Reset navbar states during route changes.
    */
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -180,8 +173,9 @@ export default function Navbar() {
   }, [isHomePage, pathname]);
 
   /*
-   * Open a pending landing-page section after
-   * navigating from About, Contact or a blog.
+   * Open saved home-page section immediately.
+   * Long retry loops and correction timers
+   * have been removed.
    */
   useLayoutEffect(() => {
     if (!isHomePage) {
@@ -206,19 +200,8 @@ export default function Navbar() {
     }
 
     let cancelled = false;
-    let attempts = 0;
-
-    let retryFrame:
-      | number
-      | null = null;
-
-    let correctionFrame:
-      | number
-      | null = null;
-
-    let correctionTimer:
-      | number
-      | null = null;
+    let navigationFrame: number | null =
+      null;
 
     const completeNavigation = () => {
       if (cancelled) {
@@ -229,15 +212,6 @@ export default function Navbar() {
         jumpToSection(sectionId);
 
       if (!sectionFound) {
-        attempts += 1;
-
-        if (attempts < 60) {
-          retryFrame =
-            requestAnimationFrame(
-              completeNavigation,
-            );
-        }
-
         return;
       }
 
@@ -250,56 +224,27 @@ export default function Navbar() {
         "",
         `/#${sectionId}`,
       );
-
-      /*
-       * Correct the position after the browser
-       * finishes its immediate layout pass.
-       */
-      correctionFrame =
-        requestAnimationFrame(() => {
-          if (!cancelled) {
-            jumpToSection(sectionId);
-          }
-        });
-
-      correctionTimer =
-        window.setTimeout(() => {
-          if (!cancelled) {
-            jumpToSection(sectionId);
-          }
-        }, 160);
     };
 
-    retryFrame =
-      requestAnimationFrame(() => {
-        retryFrame =
-          requestAnimationFrame(
-            completeNavigation,
-          );
-      });
+    /*
+     * First attempt immediately.
+     */
+    completeNavigation();
 
-    document.fonts.ready.then(() => {
-      if (!cancelled) {
-        jumpToSection(sectionId);
-      }
-    });
+    /*
+     * One frame correction only.
+     */
+    navigationFrame =
+      requestAnimationFrame(
+        completeNavigation,
+      );
 
     return () => {
       cancelled = true;
 
-      if (retryFrame !== null) {
-        cancelAnimationFrame(retryFrame);
-      }
-
-      if (correctionFrame !== null) {
+      if (navigationFrame !== null) {
         cancelAnimationFrame(
-          correctionFrame,
-        );
-      }
-
-      if (correctionTimer !== null) {
-        window.clearTimeout(
-          correctionTimer,
+          navigationFrame,
         );
       }
     };
@@ -325,10 +270,6 @@ export default function Navbar() {
               : nextIsScrolled,
           );
 
-          /*
-           * Auto-hide behaviour is only used
-           * on the landing page.
-           */
           if (!isHomePage) {
             setIsPastAbout(false);
             scrollFrameRef.current = null;
@@ -395,7 +336,35 @@ export default function Navbar() {
   }, [updateNavbarState]);
 
   /*
-   * Hide navbar when footer is visible.
+   * Close tablet menu when changing to desktop.
+   */
+  useEffect(() => {
+    const desktopMedia =
+      window.matchMedia(
+        "(min-width: 1024px)",
+      );
+
+    const handleDesktopChange = () => {
+      if (desktopMedia.matches) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    desktopMedia.addEventListener(
+      "change",
+      handleDesktopChange,
+    );
+
+    return () => {
+      desktopMedia.removeEventListener(
+        "change",
+        handleDesktopChange,
+      );
+    };
+  }, []);
+
+  /*
+   * Hide navbar while footer is visible.
    */
   useEffect(() => {
     const footer =
@@ -430,26 +399,23 @@ export default function Navbar() {
   }, [pathname]);
 
   /*
-   * Pause Lenis scrolling when mobile menu is open.
+   * Stop background scrolling while menu is open.
    */
   useEffect(() => {
-    if (!lenis) {
+    if (!isMobileMenuOpen) {
+      lenis?.start();
       return;
     }
 
-    if (isMobileMenuOpen) {
-      lenis.stop();
-    } else {
-      lenis.start();
-    }
+    lenis?.stop();
 
     return () => {
-      lenis.start();
+      lenis?.start();
     };
   }, [isMobileMenuOpen, lenis]);
 
   /*
-   * Close mobile menu using Escape.
+   * Close menu using Escape.
    */
   useEffect(() => {
     if (!isMobileMenuOpen) {
@@ -493,9 +459,6 @@ export default function Navbar() {
       return;
     }
 
-    /*
-     * About is a normal page route.
-     */
     if (!item.sectionId) {
       sessionStorage.removeItem(
         PENDING_SECTION_KEY,
@@ -506,10 +469,6 @@ export default function Navbar() {
 
     event.preventDefault();
 
-    /*
-     * Section already exists on the current
-     * landing page.
-     */
     if (isHomePage) {
       sessionStorage.removeItem(
         PENDING_SECTION_KEY,
@@ -523,26 +482,14 @@ export default function Navbar() {
 
       jumpToSection(item.sectionId);
 
-      requestAnimationFrame(() => {
-        jumpToSection(item.sectionId!);
-      });
-
       return;
     }
 
-    /*
-     * Save the requested target before changing
-     * from About, Contact or blog pages.
-     */
     sessionStorage.setItem(
       PENDING_SECTION_KEY,
       item.sectionId,
     );
 
-    /*
-     * scroll:true prevents the previous landing
-     * page position from being restored.
-     */
     router.push(`/#${item.sectionId}`, {
       scroll: true,
     });
@@ -584,8 +531,41 @@ export default function Navbar() {
           h-[42px] w-full
           bg-transparent
 
-          md:block
+          lg:block
         "
+      />
+
+      {/* Mobile/tablet backdrop */}
+      <button
+        type="button"
+        aria-label="Close navigation menu"
+        tabIndex={
+          isMobileMenuOpen ? 0 : -1
+        }
+        onClick={() => {
+          setIsMobileMenuOpen(false);
+        }}
+        className={`
+          fixed inset-0
+          z-[45]
+          bg-black/55
+          transition-[opacity,visibility]
+          duration-200 ease-out
+
+          lg:hidden
+
+          ${
+            isMobileMenuOpen
+              ? `
+                visible
+                opacity-100
+              `
+              : `
+                invisible
+                opacity-0
+              `
+          }
+        `}
       />
 
       <header
@@ -596,7 +576,7 @@ export default function Navbar() {
           h-[var(--navbar-height)]
           w-full shrink-0
           transition-[transform,opacity]
-          duration-300
+          duration-200
           ease-[cubic-bezier(0.16,1,0.3,1)]
 
           motion-reduce:transition-none
@@ -627,7 +607,7 @@ export default function Navbar() {
             items-center justify-center
             overflow-hidden
             transition-[width,height,border-radius,background-color,border-color,box-shadow]
-            duration-300
+            duration-200
             ease-[cubic-bezier(0.16,1,0.3,1)]
 
             ${
@@ -637,12 +617,8 @@ export default function Navbar() {
                   w-[min(92vw,1050px)]
                   rounded-[8px]
                   border border-white/[0.15]
-                  bg-black/[0.88]
+                  bg-black/[0.94]
                   shadow-[0_10px_28px_rgba(0,0,0,0.2)]
-                  backdrop-blur-[8px]
-
-                  max-md:h-[58px]
-                  max-md:w-[calc(100%_-_24px)]
                 `
                 : `
                   h-full
@@ -651,23 +627,41 @@ export default function Navbar() {
                   border border-transparent
                   bg-black
                   shadow-none
-                  backdrop-blur-none
-
-                  max-md:h-[58px]
-                  max-md:w-[calc(100%_-_24px)]
-                  max-md:rounded-[8px]
-                  max-md:border-white/[0.15]
-                  max-md:bg-black/[0.94]
-                  max-md:shadow-[0_8px_24px_rgba(0,0,0,0.18)]
                 `
             }
+
+            max-lg:h-[62px]
+            max-lg:w-[calc(100%_-_24px)]
+            max-lg:max-w-[760px]
+            max-lg:rounded-[12px]
+            max-lg:border-white/[0.14]
+            max-lg:bg-black/[0.97]
+            max-lg:shadow-[0_12px_34px_rgba(0,0,0,0.26)]
+
+            sm:max-lg:w-[calc(100%_-_40px)]
           `}
         >
+          {/* Mobile premium highlight */}
+          <span
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute inset-x-[18px]
+              top-0 h-px
+              bg-gradient-to-r
+              from-transparent
+              via-white/25
+              to-transparent
+
+              lg:hidden
+            "
+          />
+
           <div
             className={`
               flex items-center
               transition-[width,height,padding]
-              duration-300
+              duration-200
               ease-[cubic-bezier(0.22,1,0.36,1)]
 
               ${
@@ -676,19 +670,19 @@ export default function Navbar() {
                     h-full w-full
                     justify-between
                     px-[22px]
-
-                    max-md:px-[16px]
                   `
                   : `
                     h-[min(2.893519vw,50px)]
                     w-[min(83.622685vw,1445px)]
                     justify-between px-0
-
-                    max-md:h-full
-                    max-md:w-full
-                    max-md:px-[16px]
                   `
               }
+
+              max-lg:h-full
+              max-lg:w-full
+              max-lg:px-[14px]
+
+              sm:max-lg:px-[18px]
             `}
           >
             {/* Logo */}
@@ -707,7 +701,8 @@ export default function Navbar() {
                 relative block shrink-0
                 overflow-visible
                 transition-opacity
-                duration-200
+                duration-150
+
                 hover:opacity-75
 
                 focus-visible:outline-none
@@ -720,18 +715,18 @@ export default function Navbar() {
                   isScrolled
                     ? `
                       h-[27px] w-[132px]
-
-                      max-md:h-[24px]
-                      max-md:w-[116px]
                     `
                     : `
                       h-[min(2.115503vw,36.56px)]
                       w-[min(10.358796vw,179px)]
-
-                      max-md:h-[24px]
-                      max-md:w-[116px]
                     `
                 }
+
+                max-lg:h-[26px]
+                max-lg:w-[126px]
+
+                sm:max-lg:h-[29px]
+                sm:max-lg:w-[142px]
               `}
             >
               <Image
@@ -747,25 +742,24 @@ export default function Navbar() {
                   scale-[2.35]
                   object-contain object-left
                   transition-[width,height,transform]
-                  duration-300
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
+                  duration-200
 
                   ${
                     isScrolled
                       ? `
                         h-[27px] w-[132px]
-
-                        max-md:h-[24px]
-                        max-md:w-[116px]
                       `
                       : `
                         h-[min(2.115503vw,36.56px)]
                         w-[min(10.358796vw,179px)]
-
-                        max-md:h-[24px]
-                        max-md:w-[116px]
                       `
                   }
+
+                  max-lg:h-[26px]
+                  max-lg:w-[126px]
+
+                  sm:max-lg:h-[29px]
+                  sm:max-lg:w-[142px]
                 `}
               />
             </Link>
@@ -776,10 +770,9 @@ export default function Navbar() {
                 hidden shrink-0
                 items-center whitespace-nowrap
                 transition-[gap]
-                duration-300
-                ease-out
+                duration-200
 
-                md:flex
+                lg:flex
 
                 ${
                   isScrolled
@@ -830,7 +823,7 @@ export default function Navbar() {
                           pointer-events-none
                           block
                           transition-colors
-                          duration-200 ease-out
+                          duration-150
 
                           group-hover:!text-[#E0BE3D]
                           group-focus-visible:!text-[#E0BE3D]
@@ -861,8 +854,7 @@ export default function Navbar() {
                           h-px origin-left
                           bg-[#E0BE3D]
                           transition-transform
-                          duration-300
-                          ease-[cubic-bezier(0.22,1,0.36,1)]
+                          duration-200
 
                           group-hover:scale-x-100
                           group-focus-visible:scale-x-100
@@ -892,8 +884,7 @@ export default function Navbar() {
                 items-center justify-center
                 bg-white text-black
                 transition-[width,height,gap,border-radius,transform,box-shadow]
-                duration-300
-                ease-[cubic-bezier(0.22,1,0.36,1)]
+                duration-200
 
                 hover:-translate-y-px
                 hover:shadow-[0_8px_20px_rgba(0,0,0,0.16)]
@@ -904,7 +895,7 @@ export default function Navbar() {
                 focus-visible:ring-offset-2
                 focus-visible:ring-offset-black
 
-                md:inline-flex
+                lg:inline-flex
 
                 ${
                   isScrolled
@@ -934,7 +925,6 @@ export default function Navbar() {
                   bg-[#E0BE3D]
                   transition-transform
                   duration-300
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
 
                   group-hover:scale-x-100
                   group-focus-visible:scale-x-100
@@ -971,7 +961,7 @@ export default function Navbar() {
                   relative z-10
                   shrink-0 text-black
                   transition-transform
-                  duration-300 ease-out
+                  duration-200
 
                   group-hover:translate-x-[3px]
 
@@ -989,7 +979,7 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Mobile menu button */}
+            {/* Mobile/tablet menu button */}
             <button
               type="button"
               aria-label={
@@ -1004,55 +994,77 @@ export default function Navbar() {
                   (current) => !current,
                 );
               }}
-              className="
-                flex h-[40px] w-[40px]
+              className={`
+                relative flex
+                h-[42px] w-[42px]
                 cursor-pointer
                 items-center justify-center
-                border border-white/20
-                bg-transparent text-white
+                overflow-hidden rounded-[8px]
+                border
+                transition-[background-color,border-color,color]
+                duration-150
 
                 focus-visible:outline-none
                 focus-visible:ring-2
                 focus-visible:ring-[#E0BE3D]
 
-                md:hidden
-              "
+                lg:hidden
+
+                ${
+                  isMobileMenuOpen
+                    ? `
+                      border-[#E0BE3D]
+                      bg-[#E0BE3D]
+                      text-black
+                    `
+                    : `
+                      border-white/[0.16]
+                      bg-white/[0.05]
+                      text-white
+                    `
+                }
+              `}
             >
               {isMobileMenuOpen ? (
                 <LuX
                   aria-hidden="true"
-                  className="h-[22px] w-[22px]"
+                  strokeWidth={1.8}
+                  className="h-[21px] w-[21px]"
                 />
               ) : (
                 <LuMenu
                   aria-hidden="true"
-                  className="h-[22px] w-[22px]"
+                  strokeWidth={1.8}
+                  className="h-[21px] w-[21px]"
                 />
               )}
             </button>
           </div>
         </nav>
 
-        {/* Mobile dropdown */}
+        {/* Mobile/tablet dropdown */}
         <div
           id="mobile-navigation"
+          aria-hidden={!isMobileMenuOpen}
           className={`
             pointer-events-auto
-            absolute
-            left-1/2
-            top-[calc(50%_+_37px)]
+            absolute left-1/2
+            top-[calc(50%_+_40px)]
             w-[calc(100%_-_24px)]
+            max-w-[760px]
             -translate-x-1/2
             overflow-hidden
-            rounded-[8px]
+            rounded-[14px]
             border border-white/[0.14]
-            bg-black/[0.96]
-            shadow-[0_16px_38px_rgba(0,0,0,0.24)]
-            backdrop-blur-[10px]
+            bg-[#090909]
+            shadow-[0_20px_50px_rgba(0,0,0,0.42)]
             transition-[opacity,transform,visibility]
-            duration-200 ease-out
+            duration-200
+            ease-[cubic-bezier(0.16,1,0.3,1)]
 
-            md:hidden
+            sm:w-[calc(100%_-_40px)]
+
+            lg:hidden
 
             ${
               isMobileMenuOpen
@@ -1063,63 +1075,232 @@ export default function Navbar() {
                 `
                 : `
                   invisible
-                  -translate-y-[8px]
+                  -translate-y-[6px]
                   opacity-0
                 `
             }
           `}
         >
-          <div className="flex flex-col p-[10px]">
-            {navigationLinks.map(
-              (item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  scroll={!item.sectionId}
-                  onClick={(event) => {
-                    handleNavigation(
-                      event,
-                      item,
-                    );
-                  }}
-                  className="
-                    flex min-h-[48px]
-                    items-center
-                    border-b border-white/10
-                    px-[14px]
-                    text-white
+          {/* Top accent */}
+          <span
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute inset-x-[24px]
+              top-0 h-px
+              bg-gradient-to-r
+              from-transparent
+              via-[#E0BE3D]/70
+              to-transparent
+            "
+          />
 
-                    last:border-b-0
-                    hover:bg-white/[0.06]
-                    focus-visible:outline-none
-                    focus-visible:bg-white/[0.06]
-                  "
-                >
-                  <Typography
-                    as="span"
-                    variant="navLink"
-                    className="
-                      !text-[15px]
-                      !font-medium
-                      !text-white
-                    "
+          {/* Dropdown header */}
+          <div
+            className="
+              flex items-center
+              justify-between
+              border-b border-white/[0.1]
+              px-[20px] py-[17px]
+
+              sm:px-[24px]
+            "
+          >
+            <div
+              className="
+                flex items-center
+                gap-[10px]
+              "
+            >
+              <span
+                aria-hidden="true"
+                className="
+                  h-[8px] w-[8px]
+                  bg-[#E0BE3D]
+                "
+              />
+
+              <Typography
+                as="span"
+                variant="statLabel"
+                className="
+                  !m-0
+                  !text-[11px]
+                  !font-medium
+                  !uppercase
+                  !leading-none
+                  !tracking-[0.12em]
+                  !text-white/55
+                "
+              >
+                Navigation
+              </Typography>
+            </div>
+
+            <Typography
+              as="span"
+              variant="statLabel"
+              className="
+                !m-0
+                !text-[11px]
+                !font-normal
+                !leading-none
+                !tracking-[0.06em]
+                !text-white/30
+              "
+            >
+              Prospero
+            </Typography>
+          </div>
+
+          {/* Menu links */}
+          <div
+            className="
+              grid grid-cols-1
+              p-[8px]
+
+              sm:grid-cols-2
+            "
+          >
+            {navigationLinks.map(
+              (item, index) => {
+                const isActive =
+                  item.label === "About" &&
+                  isAboutPage;
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    scroll={!item.sectionId}
+                    onClick={(event) => {
+                      handleNavigation(
+                        event,
+                        item,
+                      );
+                    }}
+                    aria-current={
+                      isActive
+                        ? "page"
+                        : undefined
+                    }
+                    className={`
+                      group relative
+                      flex min-h-[58px]
+                      items-center
+                      justify-between
+                      overflow-hidden
+                      rounded-[8px]
+                      px-[14px]
+                      transition-colors
+                      duration-150
+
+                      focus-visible:outline-none
+                      focus-visible:ring-1
+                      focus-visible:ring-inset
+                      focus-visible:ring-[#E0BE3D]
+
+                      ${
+                        isActive
+                          ? `
+                            bg-white/[0.08]
+                          `
+                          : `
+                            hover:bg-white/[0.055]
+                          `
+                      }
+                    `}
                   >
-                    {item.label}
-                  </Typography>
-                </Link>
-              ),
+                    <div
+                      className="
+                        flex min-w-0
+                        items-center
+                        gap-[14px]
+                      "
+                    >
+                      <span
+                        className={`
+                          shrink-0
+                          font-[family-name:var(--font-geist-sans)]
+                          text-[10px]
+                          font-medium
+                          leading-none
+                          tracking-[0.08em]
+
+                          ${
+                            isActive
+                              ? "text-[#E0BE3D]"
+                              : "text-white/30"
+                          }
+                        `}
+                      >
+                        {String(
+                          index + 1,
+                        ).padStart(2, "0")}
+                      </span>
+
+                      <Typography
+                        as="span"
+                        variant="navLink"
+                        className={`
+                          !m-0
+                          !text-[15px]
+                          !font-medium
+                          !leading-none
+                          transition-colors
+                          duration-150
+
+                          ${
+                            isActive
+                              ? "!text-white"
+                              : `
+                                !text-white/80
+                                group-hover:!text-white
+                              `
+                          }
+                        `}
+                      >
+                        {item.label}
+                      </Typography>
+                    </div>
+
+                    <span
+                      aria-hidden="true"
+                      className={`
+                        h-[5px] w-[5px]
+                        shrink-0 rounded-full
+
+                        ${
+                          isActive
+                            ? `
+                              bg-[#E0BE3D]
+                            `
+                            : `
+                              bg-white/20
+                            `
+                        }
+                      `}
+                    />
+                  </Link>
+                );
+              },
             )}
 
+            {/* Mobile contact button */}
             <Link
               href="/contact"
               onClick={handleContactClick}
               className="
-                mt-[10px]
-                flex min-h-[48px]
+                group relative isolate
+                mt-[8px]
+                flex min-h-[54px]
                 items-center justify-between
+                overflow-hidden rounded-[8px]
                 bg-[#E0BE3D]
-                px-[14px]
+                px-[16px]
                 text-black
+
+                sm:col-span-2
 
                 focus-visible:outline-none
                 focus-visible:ring-2
@@ -1131,21 +1312,34 @@ export default function Navbar() {
                 as="span"
                 variant="buttonDark"
                 className="
+                  !m-0
                   !text-[15px]
                   !font-medium
                   !text-black
                 "
               >
-                Contact
+                Start a Conversation
               </Typography>
 
-              <GoArrowRight
+              <span
                 aria-hidden="true"
                 className="
-                  h-[20px] w-[20px]
-                  text-black
+                  flex h-[32px] w-[32px]
+                  items-center justify-center
+                  rounded-full
+                  bg-black text-white
                 "
-              />
+              >
+                <GoArrowRight
+                  className="
+                    h-[18px] w-[18px]
+                    transition-transform
+                    duration-200
+
+                    group-hover:translate-x-[3px]
+                  "
+                />
+              </span>
             </Link>
           </div>
         </div>

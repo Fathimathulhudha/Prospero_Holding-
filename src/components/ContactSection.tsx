@@ -53,70 +53,80 @@ export default function ContactSection({
       <div
         className="
           relative mx-auto
-          aspect-[1728/744]
           w-full max-w-[1728px]
           overflow-hidden
           bg-white
+          pb-[60px]
 
-          max-md:aspect-auto
-          max-md:!h-auto
-          max-md:!min-h-0
-          max-md:pb-[60px]
-          max-md:flex
-          max-md:flex-col
+          [--contact-grid-gutter:20px]
+          [--contact-content-gutter:40px]
+
+          md:pb-[80px]
+          md:[--contact-grid-gutter:5%]
+          md:[--contact-content-gutter:calc(5%+24px)]
+
+          lg:h-[clamp(680px,43.055556vw,744px)]
+          lg:pb-0
+          lg:[--contact-grid-gutter:7.465278%]
+          lg:[--contact-content-gutter:9.31713%]
         "
       >
-        {/* Contact grid lines */}
+        {/* Responsive grid lines */}
         <GridLines
           thickness={0.5}
           color="#D7D7D7"
           zIndex={0}
           verticalLines={[
             {
-              left: "7.465278%",
-              className: "!left-5 md:!left-[7.465278%]",
+              left:
+                "var(--contact-grid-gutter)",
             },
             {
               left: "50%",
-              hideOnMobile: true,
+              className: "hidden lg:block",
             },
             {
-              right: "7.465278%",
-              className: "!right-5 md:!right-[7.465278%]",
+              right:
+                "var(--contact-grid-gutter)",
             },
           ]}
           horizontalLines={[
             {
               top: 0,
-              left: "7.465278%",
-              right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              left:
+                "var(--contact-grid-gutter)",
+              right:
+                "var(--contact-grid-gutter)",
             },
             {
               bottom: 0,
-              left: "7.465278%",
-              right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              left:
+                "var(--contact-grid-gutter)",
+              right:
+                "var(--contact-grid-gutter)",
             },
           ]}
         />
 
-        {/* Contact label and heading */}
+        {/* Label and heading */}
         <div
           className="
-            md:absolute
-            md:left-[9.31713%]
-            md:top-[clamp(70px,5.208333vw,90px)]
-            z-10
-            md:w-[38%]
+            relative z-10
+            mx-[var(--contact-content-gutter)]
+            min-w-0
+            pt-[50px]
 
-            max-md:static
-            max-md:mt-[50px]
-            max-md:mx-5
-            max-md:w-auto
+            md:pt-[70px]
+
+            lg:absolute
+            lg:left-[var(--contact-content-gutter)]
+            lg:top-[clamp(70px,5.208333vw,90px)]
+            lg:mx-0
+            lg:w-[38%]
+            lg:pt-0
           "
         >
-          {/* Contact label */}
+          {/* Label */}
           <ScrollReveal
             delay={30}
             distance={8}
@@ -128,16 +138,22 @@ export default function ContactSection({
             <span
               aria-hidden="true"
               className="
-                h-[15px] w-[15px]
+                h-[14px] w-[14px]
                 shrink-0
                 bg-[#E0BE3D]
+
+                md:h-[15px]
+                md:w-[15px]
               "
             />
 
             <Typography
               as="span"
               variant="sectionLabelDark"
-              className="whitespace-nowrap"
+              className="
+                !m-0
+                whitespace-nowrap
+              "
             >
               Contact
             </Typography>
@@ -149,11 +165,25 @@ export default function ContactSection({
             distance={10}
             className="
               mt-[clamp(24px,2.083333vw,36px)]
+              min-w-0
             "
           >
             <Typography
               as="h2"
               variant="sectionHeadingDark"
+              className="
+                !m-0
+                min-w-0
+                !whitespace-normal
+                !break-words
+                !text-[clamp(30px,8vw,40px)]
+                !leading-[1.14]
+                !tracking-[-0.045em]
+
+                md:!text-[clamp(36px,5vw,48px)]
+
+                lg:!text-[clamp(32px,2.777778vw,48px)]
+              "
             >
               <span className="block">
                 Let&apos;s Start
@@ -167,209 +197,248 @@ export default function ContactSection({
         </div>
 
         {/* Description */}
-        <ScrollReveal
-          delay={130}
-          distance={10}
+        <div
           className="
-            md:absolute
-            md:left-[9.31713%]
-            md:top-[41.397849%]
-            z-10
-            md:w-[31.30787%]
+            relative z-10
+            mx-[var(--contact-content-gutter)]
+            mt-[28px]
+            min-w-0
 
-            max-md:static
-            max-md:mt-[20px]
-            max-md:mx-5
-            max-md:w-auto
+            md:mt-[34px]
+            md:max-w-[650px]
+
+            lg:absolute
+            lg:left-[var(--contact-content-gutter)]
+            lg:top-[41.397849%]
+            lg:mx-0
+            lg:mt-0
+            lg:w-[31.30787%]
+            lg:max-w-none
           "
         >
-          <Typography
-            as="p"
-            variant="sectionBodyDark"
+          <ScrollReveal
+            delay={130}
+            distance={10}
           >
-            Have a business opportunity, partnership
-            proposal, or investment idea?
-            <br />
-            Tell us what you&apos;re building. Our team
-            will be in touch.
-          </Typography>
-        </ScrollReveal>
+            <Typography
+              as="p"
+              variant="sectionBodyDark"
+              className="
+                !m-0
+                !whitespace-normal
+                !break-words
+              "
+            >
+              Have a business opportunity, partnership
+              proposal, or investment idea?
+              <br />
+              Tell us what you&apos;re building. Our
+              team will be in touch.
+            </Typography>
+          </ScrollReveal>
+        </div>
 
         {/* Contact-page-only details */}
         {showContactDetails && (
-          <ScrollReveal
-            delay={180}
-            distance={10}
+          <div
             className="
-              md:absolute
-              md:left-[9.31713%]
-              md:top-[64%]
-              z-10
-              md:w-[36%]
+              relative z-10
+              mx-[var(--contact-content-gutter)]
+              mt-[30px]
+              min-w-0
 
-              max-md:static
-              max-md:mt-[24px]
-              max-md:mx-5
-              max-md:w-auto
+              md:max-w-[650px]
+
+              lg:absolute
+              lg:left-[var(--contact-content-gutter)]
+              lg:top-[64%]
+              lg:mx-0
+              lg:mt-0
+              lg:w-[36%]
+              lg:max-w-none
             "
           >
-            <address
-              className="
-                flex flex-col
-                gap-[clamp(14px,1.041667vw,18px)]
-                not-italic
-              "
+            <ScrollReveal
+              delay={180}
+              distance={10}
             >
-              {/* Email */}
-              <a
-                href="mailto:info@prospero.ae"
-                aria-label="Email Prospero Holding"
+              <address
                 className="
-                  group flex items-start
-                  gap-[clamp(10px,0.694444vw,12px)]
-
-                  focus-visible:outline-none
+                  flex flex-col
+                  gap-[clamp(14px,1.041667vw,18px)]
+                  not-italic
                 "
               >
-                <LuMail
-                  aria-hidden="true"
-                  strokeWidth={1.5}
+                {/* Email */}
+                <a
+                  href="mailto:info@prospero.ae"
+                  aria-label="Email Prospero Holding"
                   className="
-                    mt-[clamp(3px,0.289352vw,5px)]
-                    h-[clamp(17px,1.157407vw,20px)]
-                    w-[clamp(17px,1.157407vw,20px)]
-                    shrink-0
-                    text-[#676767]
-                    transition-colors
-                    duration-300
+                    group flex min-w-0
+                    items-start
+                    gap-[clamp(10px,0.694444vw,12px)]
+                    text-inherit no-underline
 
-                    group-hover:text-[#E0BE3D]
-                  "
-                />
-
-                <Typography
-                  as="span"
-                  variant="sectionBodyDark"
-                  className="
-                    !text-[clamp(15px,1.041667vw,18px)]
-                    !leading-[1.35]
-                    transition-colors
-                    duration-300
-
-                    group-hover:!text-black
-                    group-focus-visible:!text-black
+                    focus-visible:outline-none
+                    focus-visible:ring-1
+                    focus-visible:ring-[#E0BE3D]
                   "
                 >
-                  info@prospero.ae
-                </Typography>
-              </a>
+                  <LuMail
+                    aria-hidden="true"
+                    strokeWidth={1.5}
+                    className="
+                      mt-[clamp(3px,0.289352vw,5px)]
+                      h-[clamp(17px,1.157407vw,20px)]
+                      w-[clamp(17px,1.157407vw,20px)]
+                      shrink-0
+                      text-[#676767]
+                      transition-colors
+                      duration-300
 
-              {/* Phone */}
-              <a
-                href="tel:+97145689506"
-                aria-label="Call Prospero Holding"
-                className="
-                  group flex items-start
-                  gap-[clamp(10px,0.694444vw,12px)]
+                      group-hover:text-[#E0BE3D]
+                    "
+                  />
 
-                  focus-visible:outline-none
-                "
-              >
-                <LuPhone
-                  aria-hidden="true"
-                  strokeWidth={1.5}
+                  <Typography
+                    as="span"
+                    variant="sectionBodyDark"
+                    className="
+                      !m-0
+                      min-w-0
+                      !break-all
+                      !text-[clamp(15px,1.041667vw,18px)]
+                      !leading-[1.35]
+                      transition-colors
+                      duration-300
+
+                      group-hover:!text-black
+                    "
+                  >
+                    info@prospero.ae
+                  </Typography>
+                </a>
+
+                {/* Phone */}
+                <a
+                  href="tel:+97145689506"
+                  aria-label="Call Prospero Holding"
                   className="
-                    mt-[clamp(3px,0.289352vw,5px)]
-                    h-[clamp(17px,1.157407vw,20px)]
-                    w-[clamp(17px,1.157407vw,20px)]
-                    shrink-0
-                    text-[#676767]
-                    transition-colors
-                    duration-300
+                    group flex min-w-0
+                    items-start
+                    gap-[clamp(10px,0.694444vw,12px)]
+                    text-inherit no-underline
 
-                    group-hover:text-[#E0BE3D]
-                  "
-                />
-
-                <Typography
-                  as="span"
-                  variant="sectionBodyDark"
-                  className="
-                    !text-[clamp(15px,1.041667vw,18px)]
-                    !leading-[1.35]
-                    transition-colors
-                    duration-300
-
-                    group-hover:!text-black
-                    group-focus-visible:!text-black
-                  "
-                >
-                  +971 4 568 9506
-                </Typography>
-              </a>
-
-              {/* Address */}
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Tower+Plaza+Hotel+and+Office+Tower+Suite+2003+20th+Floor+Sheikh+Zayed+Road+Dubai"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open Prospero Holding address in Google Maps"
-                className="
-                  group flex items-start
-                  gap-[clamp(10px,0.694444vw,12px)]
-
-                  focus-visible:outline-none
-                "
-              >
-                <LuMapPin
-                  aria-hidden="true"
-                  strokeWidth={1.5}
-                  className="
-                    mt-[clamp(3px,0.289352vw,5px)]
-                    h-[clamp(17px,1.157407vw,20px)]
-                    w-[clamp(17px,1.157407vw,20px)]
-                    shrink-0
-                    text-[#676767]
-                    transition-colors
-                    duration-300
-
-                    group-hover:text-[#E0BE3D]
-                  "
-                />
-
-                <Typography
-                  as="span"
-                  variant="sectionBodyDark"
-                  className="
-                    !text-[clamp(15px,1.041667vw,18px)]
-                    !leading-[1.35]
-                    transition-colors
-                    duration-300
-
-                    group-hover:!text-black
-                    group-focus-visible:!text-black
+                    focus-visible:outline-none
+                    focus-visible:ring-1
+                    focus-visible:ring-[#E0BE3D]
                   "
                 >
-                  Tower Plaza Hotel &amp; Office Tower,
-                  Suite No: 2003, 20th Floor, Sheikh
-                  Zayed Road, Dubai.
-                </Typography>
-              </a>
-            </address>
-          </ScrollReveal>
+                  <LuPhone
+                    aria-hidden="true"
+                    strokeWidth={1.5}
+                    className="
+                      mt-[clamp(3px,0.289352vw,5px)]
+                      h-[clamp(17px,1.157407vw,20px)]
+                      w-[clamp(17px,1.157407vw,20px)]
+                      shrink-0
+                      text-[#676767]
+                      transition-colors
+                      duration-300
+
+                      group-hover:text-[#E0BE3D]
+                    "
+                  />
+
+                  <Typography
+                    as="span"
+                    variant="sectionBodyDark"
+                    className="
+                      !m-0
+                      !text-[clamp(15px,1.041667vw,18px)]
+                      !leading-[1.35]
+                      transition-colors
+                      duration-300
+
+                      group-hover:!text-black
+                    "
+                  >
+                    +971 4 568 9506
+                  </Typography>
+                </a>
+
+                {/* Address */}
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Tower+Plaza+Hotel+and+Office+Tower+Suite+2003+20th+Floor+Sheikh+Zayed+Road+Dubai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open Prospero Holding address in Google Maps"
+                  className="
+                    group flex min-w-0
+                    items-start
+                    gap-[clamp(10px,0.694444vw,12px)]
+                    text-inherit no-underline
+
+                    focus-visible:outline-none
+                    focus-visible:ring-1
+                    focus-visible:ring-[#E0BE3D]
+                  "
+                >
+                  <LuMapPin
+                    aria-hidden="true"
+                    strokeWidth={1.5}
+                    className="
+                      mt-[clamp(3px,0.289352vw,5px)]
+                      h-[clamp(17px,1.157407vw,20px)]
+                      w-[clamp(17px,1.157407vw,20px)]
+                      shrink-0
+                      text-[#676767]
+                      transition-colors
+                      duration-300
+
+                      group-hover:text-[#E0BE3D]
+                    "
+                  />
+
+                  <Typography
+                    as="span"
+                    variant="sectionBodyDark"
+                    className="
+                      !m-0
+                      min-w-0
+                      !whitespace-normal
+                      !break-words
+                      !text-[clamp(15px,1.041667vw,18px)]
+                      !leading-[1.35]
+                      transition-colors
+                      duration-300
+
+                      group-hover:!text-black
+                    "
+                  >
+                    Tower Plaza Hotel &amp; Office
+                    Tower, Suite No: 2003, 20th Floor,
+                    Sheikh Zayed Road, Dubai.
+                  </Typography>
+                </a>
+              </address>
+            </ScrollReveal>
+          </div>
         )}
 
         {/* Contact form */}
         <form
           className="
-            contents
-            md:contents
-            max-md:static
-            max-md:mt-[36px]
-            max-md:mx-5
-            max-md:flex
-            max-md:flex-col
-            max-md:gap-[16px]
+            relative z-10
+            mx-[var(--contact-content-gutter)]
+            mt-[40px]
+            flex min-w-0
+            flex-col gap-[16px]
+
+            md:mt-[48px]
+            md:gap-[18px]
+
+            lg:contents
           "
         >
           {/* Full name */}
@@ -377,16 +446,17 @@ export default function ContactSection({
             delay={70}
             distance={10}
             className="
-              md:absolute
-              md:left-[52.777778%]
-              md:top-[9.811828%]
-              z-10
-              md:h-[11.693548%]
-              md:w-[36.979167%]
+              relative h-[64px]
+              min-w-0 w-full
 
-              max-md:static
-              max-md:h-[64px]
-              max-md:w-full
+              md:h-[68px]
+
+              lg:absolute
+              lg:left-[52.777778%]
+              lg:top-[9.811828%]
+              lg:z-10
+              lg:h-[11.693548%]
+              lg:w-[36.979167%]
             "
           >
             <input
@@ -410,16 +480,17 @@ export default function ContactSection({
             delay={110}
             distance={10}
             className="
-              md:absolute
-              md:left-[52.777778%]
-              md:top-[23.252688%]
-              z-10
-              md:h-[11.693548%]
-              md:w-[36.979167%]
+              relative h-[64px]
+              min-w-0 w-full
 
-              max-md:static
-              max-md:h-[64px]
-              max-md:w-full
+              md:h-[68px]
+
+              lg:absolute
+              lg:left-[52.777778%]
+              lg:top-[23.252688%]
+              lg:z-10
+              lg:h-[11.693548%]
+              lg:w-[36.979167%]
             "
           >
             <input
@@ -443,16 +514,17 @@ export default function ContactSection({
             delay={150}
             distance={10}
             className="
-              md:absolute
-              md:left-[52.777778%]
-              md:top-[36.693548%]
-              z-10
-              md:h-[36.827957%]
-              md:w-[36.979167%]
+              relative h-[190px]
+              min-w-0 w-full
 
-              max-md:static
-              max-md:h-[190px]
-              max-md:w-full
+              md:h-[220px]
+
+              lg:absolute
+              lg:left-[52.777778%]
+              lg:top-[36.693548%]
+              lg:z-10
+              lg:h-[36.827957%]
+              lg:w-[36.979167%]
             "
           >
             <textarea
@@ -476,13 +548,13 @@ export default function ContactSection({
             delay={190}
             distance={8}
             className="
-              md:absolute
-              md:left-[52.777778%]
-              md:top-[77.688172%]
-              z-10
+              relative mt-[8px]
 
-              max-md:static
-              max-md:mt-[8px]
+              lg:absolute
+              lg:left-[52.777778%]
+              lg:top-[77.688172%]
+              lg:z-10
+              lg:mt-0
             "
           >
             <button
@@ -490,16 +562,18 @@ export default function ContactSection({
               className="
                 group relative isolate
                 inline-flex
-                h-[clamp(42px,2.893519vw,50px)]
+                h-[46px]
                 items-center justify-center
-                gap-[clamp(8px,0.578704vw,10px)]
+                gap-[10px]
                 overflow-hidden
                 border border-black
                 bg-white
-                px-[clamp(15px,0.983796vw,17px)]
+                px-[17px]
                 text-black
                 transition-[transform,box-shadow]
                 duration-300 ease-out
+
+                md:h-[50px]
 
                 hover:-translate-y-px
                 hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)]
@@ -508,16 +582,18 @@ export default function ContactSection({
                 focus-visible:ring-2
                 focus-visible:ring-[#E0BE3D]
                 focus-visible:ring-offset-2
+
+                motion-reduce:transform-none
+                motion-reduce:transition-none
               "
             >
+              {/* Animated background */}
               <span
                 aria-hidden="true"
                 className="
                   pointer-events-none
-                  absolute inset-0
-                  z-0
-                  origin-left
-                  scale-x-0
+                  absolute inset-0 z-0
+                  origin-left scale-x-0
                   bg-black
                   transition-transform
                   duration-700
@@ -525,6 +601,8 @@ export default function ContactSection({
 
                   group-hover:scale-x-100
                   group-focus-visible:scale-x-100
+
+                  motion-reduce:transition-none
                 "
               />
 
@@ -533,7 +611,7 @@ export default function ContactSection({
                 variant="buttonDark"
                 className="
                   relative z-10
-                  whitespace-nowrap
+                  !m-0 whitespace-nowrap
                   transition-colors
                   duration-500 ease-out
 
@@ -548,8 +626,8 @@ export default function ContactSection({
                 aria-hidden="true"
                 className="
                   relative z-10
-                  h-[clamp(17px,1.388889vw,24px)]
-                  w-[clamp(17px,1.388889vw,24px)]
+                  h-[clamp(18px,1.388889vw,24px)]
+                  w-[clamp(18px,1.388889vw,24px)]
                   shrink-0
                   text-black
                   transition-[color,transform]
@@ -558,6 +636,9 @@ export default function ContactSection({
                   group-hover:translate-x-[3px]
                   group-hover:text-white
                   group-focus-visible:text-white
+
+                  motion-reduce:transform-none
+                  motion-reduce:transition-none
                 "
               />
             </button>

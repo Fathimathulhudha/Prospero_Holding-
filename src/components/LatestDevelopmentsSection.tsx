@@ -115,11 +115,13 @@ const developments: Development[] = [
   },
 ];
 
+type DevelopmentCardProps = {
+  development: Development;
+};
+
 function DevelopmentCard({
   development,
-}: {
-  development: Development;
-}) {
+}: DevelopmentCardProps) {
   return (
     <Link
       href={development.href}
@@ -168,11 +170,15 @@ function DevelopmentCard({
           motion-reduce:transition-none
         "
       >
+        {/* Card image */}
         <div
           className="
             relative aspect-[16/10]
             w-full shrink-0
-            overflow-hidden bg-[#929292]
+            overflow-hidden
+            bg-[#929292]
+
+            sm:aspect-[16/9]
 
             md:aspect-[4/3]
 
@@ -189,8 +195,8 @@ function DevelopmentCard({
             quality={75}
             draggable={false}
             sizes="
-              (max-width: 767px) calc(100vw - 40px),
-              (max-width: 1023px) 44vw,
+              (max-width: 767px) calc(100vw - 80px),
+              (max-width: 1023px) 42vw,
               (max-width: 1728px) 27vw,
               460px
             "
@@ -209,6 +215,7 @@ function DevelopmentCard({
             "
           />
 
+          {/* Image overlay */}
           <div
             aria-hidden="true"
             className="
@@ -221,10 +228,13 @@ function DevelopmentCard({
             "
           />
 
+          {/* Company label */}
           <div
             className="
-              absolute left-[14px] top-[14px]
-              z-20 bg-black/80
+              absolute
+              left-[14px] top-[14px]
+              z-20
+              bg-black/80
               px-[12px] py-[8px]
 
               md:left-[16px]
@@ -258,16 +268,19 @@ function DevelopmentCard({
           </div>
         </div>
 
+        {/* Card content */}
         <div
           className="
-            flex min-h-[108px]
+            flex min-h-[120px]
             shrink-0 items-center
             justify-between
             gap-[12px]
-            overflow-hidden
-            px-[16px] py-[16px]
+            px-[16px] py-[18px]
 
-            md:min-h-[116px]
+            sm:min-h-[116px]
+
+            md:min-h-[124px]
+            md:gap-[14px]
             md:px-[18px]
 
             lg:min-h-[112px]
@@ -285,15 +298,18 @@ function DevelopmentCard({
               !m-0
               !whitespace-normal
               !break-words
-              !text-[15px]
+              !text-[14px]
               !font-normal
-              !leading-[1.35]
+              !leading-[1.4]
               !tracking-[-0.018em]
               !text-black
 
-              md:line-clamp-2
+              sm:!text-[15px]
+
+              md:line-clamp-3
               md:!text-[16px]
 
+              lg:line-clamp-2
               lg:!text-[clamp(15px,1.041667vw,18px)]
               lg:!leading-[1.45]
             "
@@ -301,14 +317,16 @@ function DevelopmentCard({
             {development.title}
           </Typography>
 
+          {/* Arrow button visual */}
           <span
             aria-hidden="true"
             className="
               flex h-[40px] w-[40px]
               shrink-0 items-center
-              justify-center rounded-full
-              bg-black
-              transition-colors duration-200
+              justify-center
+              rounded-full bg-black
+              transition-colors
+              duration-200
 
               md:h-[44px]
               md:w-[44px]
@@ -319,6 +337,7 @@ function DevelopmentCard({
             "
           >
             <LuArrowUpRight
+              aria-hidden="true"
               strokeWidth={2}
               className="
                 h-[18px] w-[18px]
@@ -359,11 +378,14 @@ export default function LatestDevelopmentsSection() {
         0,
       );
 
+      const scrollProgress =
+        maximumScroll > 0
+          ? slider.scrollLeft /
+            maximumScroll
+          : 0;
+
       const nextPage: 0 | 1 =
-        maximumScroll > 0 &&
-        slider.scrollLeft /
-          maximumScroll >=
-          0.5
+        scrollProgress >= 0.5
           ? 1
           : 0;
 
@@ -390,6 +412,8 @@ export default function LatestDevelopmentsSection() {
 
     resizeObserver.observe(slider);
 
+    updateActivePage(slider);
+
     return () => {
       resizeObserver.disconnect();
 
@@ -397,6 +421,8 @@ export default function LatestDevelopmentsSection() {
         cancelAnimationFrame(
           frameRef.current,
         );
+
+        frameRef.current = null;
       }
     };
   }, [updateActivePage]);
@@ -449,14 +475,6 @@ export default function LatestDevelopmentsSection() {
     });
   };
 
-  const showPreviousPage = () => {
-    scrollToPage(0);
-  };
-
-  const showNextPage = () => {
-    scrollToPage(1);
-  };
-
   return (
     <section
       id="news"
@@ -470,15 +488,16 @@ export default function LatestDevelopmentsSection() {
         className="
           relative mx-auto
           w-full max-w-[1728px]
-          overflow-hidden bg-white
+          overflow-hidden
+          bg-white
           pb-[54px]
 
           [--news-grid-gutter:20px]
-          [--news-content-gutter:20px]
+          [--news-content-gutter:40px]
 
-          md:pb-[64px]
+          md:pb-[70px]
           md:[--news-grid-gutter:5%]
-          md:[--news-content-gutter:6%]
+          md:[--news-content-gutter:calc(5%+24px)]
 
           lg:h-svh
           lg:min-h-[700px]
@@ -488,6 +507,7 @@ export default function LatestDevelopmentsSection() {
           lg:[--news-content-gutter:9.31713%]
         "
       >
+        {/* Responsive grid lines */}
         <GridLines
           thickness={0.5}
           color="#D7D7D7"
@@ -513,11 +533,13 @@ export default function LatestDevelopmentsSection() {
           ]}
         />
 
+        {/* Header */}
         <div
           className="
             relative z-10
             mx-[var(--news-content-gutter)]
-            pb-[36px] pt-[52px]
+            min-w-0
+            pb-[36px] pt-[50px]
 
             md:pb-[44px]
             md:pt-[68px]
@@ -530,6 +552,7 @@ export default function LatestDevelopmentsSection() {
             lg:p-0
           "
         >
+          {/* Label */}
           <div
             className="
               flex items-center
@@ -540,7 +563,8 @@ export default function LatestDevelopmentsSection() {
               aria-hidden="true"
               className="
                 h-[14px] w-[14px]
-                shrink-0 bg-[#E0BE3D]
+                shrink-0
+                bg-[#E0BE3D]
 
                 md:h-[15px]
                 md:w-[15px]
@@ -559,9 +583,11 @@ export default function LatestDevelopmentsSection() {
             </Typography>
           </div>
 
+          {/* Heading */}
           <div
             className="
               mt-[clamp(24px,2.083333vw,36px)]
+              min-w-0
               max-w-[1000px]
             "
           >
@@ -570,8 +596,15 @@ export default function LatestDevelopmentsSection() {
               variant="sectionHeadingDark"
               className="
                 !m-0
-                !leading-[1.16]
+                !whitespace-normal
+                !break-words
+                !text-[clamp(30px,8vw,40px)]
+                !leading-[1.14]
                 !tracking-[-0.045em]
+
+                md:!text-[clamp(36px,5vw,48px)]
+
+                lg:!text-[clamp(32px,2.777778vw,48px)]
               "
             >
               What&apos;s Moving Prospero Forward.
@@ -579,6 +612,7 @@ export default function LatestDevelopmentsSection() {
           </div>
         </div>
 
+        {/* Cards slider */}
         <div
           ref={sliderRef}
           role="region"
@@ -588,13 +622,12 @@ export default function LatestDevelopmentsSection() {
           data-hide-scrollbar
           className="
             relative z-10
-            mx-[20px]
+            mx-[var(--news-content-gutter)]
             flex items-stretch
-            gap-0
+            gap-[16px]
             overflow-x-auto
             overflow-y-hidden
-            overscroll-x-none
-            scroll-auto
+            overscroll-x-contain
             snap-x snap-mandatory
             scroll-px-0
             touch-pan-x
@@ -606,13 +639,12 @@ export default function LatestDevelopmentsSection() {
 
             focus-visible:outline-none
 
-            md:mx-[6%]
             md:gap-[16px]
             md:snap-proximity
 
             lg:absolute
-            lg:left-[9.31713%]
-            lg:right-[9.31713%]
+            lg:left-[var(--news-content-gutter)]
+            lg:right-[var(--news-content-gutter)]
             lg:top-[31%]
             lg:mx-0
             lg:h-[53%]
@@ -630,16 +662,16 @@ export default function LatestDevelopmentsSection() {
           )}
         </div>
 
-        {/* Premium slider navigation */}
+        {/* Slider navigation */}
         <div
           className="
             relative z-20
             mt-[34px]
             flex items-center
             justify-center
-            gap-[10px]
+            gap-[8px]
 
-            md:mt-[40px]
+            md:mt-[42px]
             md:gap-[12px]
 
             lg:absolute
@@ -649,14 +681,15 @@ export default function LatestDevelopmentsSection() {
             lg:-translate-x-1/2
           "
         >
-          {/* Previous arrow */}
+          {/* Previous button */}
           <button
             type="button"
-            onClick={showPreviousPage}
+            onClick={() => {
+              scrollToPage(0);
+            }}
             disabled={activePage === 0}
             aria-label="Show previous developments"
             className="
-              group/navigation
               flex h-[36px] w-[36px]
               cursor-pointer items-center
               justify-center
@@ -686,13 +719,14 @@ export default function LatestDevelopmentsSection() {
               strokeWidth={1.7}
               className="
                 h-[19px] w-[19px]
+
                 md:h-[20px]
                 md:w-[20px]
               "
             />
           </button>
 
-          {/* First page */}
+          {/* Page 01 */}
           <button
             type="button"
             onClick={() => {
@@ -706,11 +740,11 @@ export default function LatestDevelopmentsSection() {
             }
             className="
               flex h-[36px]
-              min-w-[34px]
+              min-w-[32px]
               cursor-pointer
               items-center justify-center
               border-0 bg-transparent
-              px-[5px]
+              px-[4px]
 
               focus-visible:outline-none
               focus-visible:ring-1
@@ -742,10 +776,11 @@ export default function LatestDevelopmentsSection() {
             aria-hidden="true"
             className="
               relative h-px
-              w-[88px]
+              w-[68px]
               overflow-hidden
               bg-black/15
 
+              min-[375px]:w-[80px]
               sm:w-[96px]
               md:w-[104px]
             "
@@ -770,7 +805,7 @@ export default function LatestDevelopmentsSection() {
             />
           </div>
 
-          {/* Second page */}
+          {/* Page 02 */}
           <button
             type="button"
             onClick={() => {
@@ -784,11 +819,11 @@ export default function LatestDevelopmentsSection() {
             }
             className="
               flex h-[36px]
-              min-w-[34px]
+              min-w-[32px]
               cursor-pointer
               items-center justify-center
               border-0 bg-transparent
-              px-[5px]
+              px-[4px]
 
               focus-visible:outline-none
               focus-visible:ring-1
@@ -815,10 +850,12 @@ export default function LatestDevelopmentsSection() {
             </span>
           </button>
 
-          {/* Next arrow */}
+          {/* Next button */}
           <button
             type="button"
-            onClick={showNextPage}
+            onClick={() => {
+              scrollToPage(1);
+            }}
             disabled={activePage === 1}
             aria-label="Show next developments"
             className="
@@ -851,6 +888,7 @@ export default function LatestDevelopmentsSection() {
               strokeWidth={1.7}
               className="
                 h-[19px] w-[19px]
+
                 md:h-[20px]
                 md:w-[20px]
               "

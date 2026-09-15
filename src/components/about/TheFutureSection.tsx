@@ -10,6 +10,7 @@ export default function TheFutureSection() {
       id="the-future"
       className="
         relative w-full
+        scroll-mt-[var(--navbar-height,108px)]
         overflow-hidden
         bg-[#E4E4E4]
         text-black
@@ -18,176 +19,255 @@ export default function TheFutureSection() {
       <div
         className="
           relative mx-auto
-          h-[clamp(480px,34.722222vw,600px)]
           w-full max-w-[1728px]
           overflow-hidden
           bg-[#E4E4E4]
 
-          max-md:!h-auto
-          max-md:!min-h-0
-          max-md:pb-[60px]
-          max-md:flex
-          max-md:flex-col
+          [--future-grid-gutter:20px]
+          [--future-content-gutter:40px]
+
+          pb-[60px]
+
+          md:[--future-grid-gutter:5%]
+          md:[--future-content-gutter:calc(5%+24px)]
+          md:pb-[80px]
+
+          lg:h-[clamp(480px,34.722222vw,600px)]
+          lg:pb-0
+          lg:[--future-grid-gutter:7.465278%]
+          lg:[--future-content-gutter:9.31713%]
         "
       >
-        {/* Grid lines */}
+        {/* Main grid lines */}
         <GridLines
           thickness={0.5}
           color="#C8C8C8"
           zIndex={0}
           verticalLines={[
             {
-              left: "7.465278%",
-              className: "!left-5 md:!left-[7.465278%]",
+              left:
+                "var(--future-grid-gutter)",
             },
             {
               left: "50%",
-              hideOnMobile: true,
+              className: "hidden md:block",
             },
             {
-              right: "7.465278%",
-              className: "!right-5 md:!right-[7.465278%]",
+              right:
+                "var(--future-grid-gutter)",
             },
           ]}
           horizontalLines={[
             {
               top: 0,
-              left: "7.465278%",
-              right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              left:
+                "var(--future-grid-gutter)",
+              right:
+                "var(--future-grid-gutter)",
+            },
+            {
+              bottom: 0,
+              left:
+                "var(--future-grid-gutter)",
+              right:
+                "var(--future-grid-gutter)",
+              className: "lg:hidden",
             },
             {
               top: "83%",
               left: "7.465278%",
               right: "7.465278%",
-              className: "!left-5 !right-5 md:!left-[7.465278%] md:!right-[7.465278%]",
+              className: "hidden lg:block",
             },
           ]}
         />
 
-        {/* Label and heading */}
+        {/* Responsive content area */}
         <div
           className="
-            md:absolute
-            md:left-[9.31713%]
-            md:top-[clamp(70px,5.208333vw,90px)]
-            z-10
-            md:w-[40%]
+            relative z-10
+            mx-[var(--future-content-gutter)]
+            grid grid-cols-1
+            gap-[30px]
+            pb-[10px] pt-[52px]
 
-            max-md:static
-            max-md:mt-[50px]
-            max-md:mx-5
-            max-md:w-auto
+            md:grid-cols-2
+            md:gap-[48px]
+            md:pb-[20px]
+            md:pt-[70px]
+
+            lg:absolute
+            lg:left-[9.31713%]
+            lg:right-[9.259259%]
+            lg:top-[clamp(70px,5.208333vw,90px)]
+            lg:mx-0
+            lg:block
+            lg:p-0
           "
         >
-          {/* Section label */}
-          <ScrollReveal
-            delay={40}
-            distance={8}
-            className="
-              flex items-center
-              gap-[10px]
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="
-                h-[15px] w-[15px]
-                shrink-0
-                bg-[#E0BE3D]
-              "
-            />
-
-            <Typography
-              as="span"
-              variant="sectionLabelDark"
-              className="whitespace-nowrap"
-            >
-              The Future
-            </Typography>
-          </ScrollReveal>
-
-          {/* Heading */}
-          <ScrollReveal
-            delay={90}
-            distance={12}
-            className="
-              mt-[clamp(24px,2.083333vw,36px)]
-              w-full
-            "
-          >
-            <Typography
-              as="h2"
-              variant="sectionHeadingDark"
-            >
-              <span
-                className="
-                  block whitespace-nowrap
-                  max-md:whitespace-normal
-                "
-              >
-                Shaping the
-              </span>
-
-              <span
-                className="
-                  block whitespace-nowrap
-                  max-md:whitespace-normal
-                "
-              >
-                Future Together.
-              </span>
-            </Typography>
-          </ScrollReveal>
-        </div>
-
-        {/* Description */}
-        <ScrollReveal
-          delay={140}
-          distance={12}
-          className="
-            md:absolute
-            md:left-[51.388889%]
-            md:top-[clamp(70px,5.208333vw,90px)]
-            z-10
-            md:-mt-[6px]
-            md:w-[39.351852%]
-
-            max-md:static
-            max-md:mt-[20px]
-            max-md:mx-5
-            max-md:w-auto
-          "
-        >
+          {/* Label and heading */}
           <div
             className="
-              flex flex-col
-              gap-[clamp(24px,2.083333vw,36px)]
+              min-w-0
+
+              lg:absolute
+              lg:left-0
+              lg:top-0
+              lg:w-[46%]
             "
           >
-            <Typography
-              as="p"
-              variant="sectionBodyDark"
-              className="!text-[#707070]"
+            {/* Section label */}
+            <ScrollReveal
+              delay={40}
+              distance={8}
+              className="
+                flex items-center
+                gap-[10px]
+              "
             >
-              Prospero Holding continues to explore new
-              markets, digital finance innovations, and
-              sustainable investment opportunities.
-            </Typography>
+              <span
+                aria-hidden="true"
+                className="
+                  h-[14px] w-[14px]
+                  shrink-0
+                  bg-[#E0BE3D]
 
-            <Typography
-              as="p"
-              variant="sectionBodyDark"
-              className="!text-[#707070]"
+                  md:h-[15px]
+                  md:w-[15px]
+                "
+              />
+
+              <Typography
+                as="span"
+                variant="sectionLabelDark"
+                className="
+                  !m-0
+                  whitespace-nowrap
+                "
+              >
+                The Future
+              </Typography>
+            </ScrollReveal>
+
+            {/* Heading */}
+            <ScrollReveal
+              delay={90}
+              distance={12}
+              className="
+                mt-[26px]
+                min-w-0 w-full
+
+                md:mt-[30px]
+
+                lg:mt-[clamp(24px,2.083333vw,36px)]
+              "
             >
-              Our strategic roadmap looks toward areas
-              including fintech, smart real estate, and
-              international partnerships as we work to
-              expand our capabilities and strengthen
-              our global presence.
-            </Typography>
+              <Typography
+                as="h2"
+                variant="sectionHeadingDark"
+                className="
+                  !m-0
+                  min-w-0
+                  !whitespace-normal
+                  !break-words
+                  !text-[clamp(30px,8vw,38px)]
+                  !leading-[1.14]
+                  !tracking-[-0.045em]
+
+                  md:!text-[clamp(34px,4.5vw,44px)]
+
+                  lg:!text-[clamp(32px,2.777778vw,48px)]
+                "
+              >
+                <span className="block">
+                  Shaping the
+                </span>
+
+                <span
+                  className="
+                    block whitespace-normal
+
+                    lg:whitespace-nowrap
+                  "
+                >
+                  Future Together.
+                </span>
+              </Typography>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+
+          {/* Description */}
+          <ScrollReveal
+            delay={140}
+            distance={12}
+            className="
+              min-w-0
+
+              lg:absolute
+              lg:right-0
+              lg:top-[-6px]
+              lg:w-[46.5%]
+            "
+          >
+            <div
+              className="
+                flex flex-col
+                gap-[26px]
+
+                md:gap-[30px]
+
+                lg:gap-[clamp(24px,2.083333vw,36px)]
+              "
+            >
+              <Typography
+                as="p"
+                variant="sectionBodyDark"
+                className="
+                  !m-0
+                  !whitespace-normal
+                  !break-words
+                  !text-[15px]
+                  !leading-[1.55]
+                  !text-[#707070]
+
+                  md:!text-[16px]
+
+                  lg:!text-[clamp(16px,1.273148vw,22px)]
+                  lg:!leading-[1.45]
+                "
+              >
+                Prospero Holding continues to explore
+                new markets, digital finance
+                innovations, and sustainable investment
+                opportunities.
+              </Typography>
+
+              <Typography
+                as="p"
+                variant="sectionBodyDark"
+                className="
+                  !m-0
+                  !whitespace-normal
+                  !break-words
+                  !text-[15px]
+                  !leading-[1.55]
+                  !text-[#707070]
+
+                  md:!text-[16px]
+
+                  lg:!text-[clamp(16px,1.273148vw,22px)]
+                  lg:!leading-[1.45]
+                "
+              >
+                Our strategic roadmap looks toward
+                areas including fintech, smart real
+                estate, and international partnerships
+                as we work to expand our capabilities
+                and strengthen our global presence.
+              </Typography>
+            </div>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );
